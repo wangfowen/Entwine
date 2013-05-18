@@ -5,6 +5,12 @@
 # Home page
 GET     /                           controllers.Application.index
 GET     /login                      controllers.Login.index(email: String ?= null)
+POST    /login                      controllers.Login.login(email: String ?= null, password: String ?= null)
+POST    /signup                     controllers.Login.signup(email: String ?= null, password: String ?= null)
 POST    /subscribe                  controllers.Application.subscribe(email: String ?= null)
+GET     /scheduler/dashboard        controllers.scheduler.Dashboard.index
+GET     /scheduler/create           controllers.scheduler.CreateEvent.index
+POST    /scheduler/create           controllers.scheduler.CreateEvent.createEvent
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

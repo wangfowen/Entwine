@@ -1,0 +1,16 @@
+@navbarLayout("Dashboard", "dashboardPage", "page-dashboard"){
+  <h1 class="heading-1"><h1>
+    <p class="text-plain prompt-text">Here are your upcoming events. You can also <a class="link bold" href="@controllers.scheduler.routes.CreateEvent.index">create a new event</a>.</p>
+    <table class="event-table">
+      <tr class="heading-2">
+        <th><span>name</span></th>
+        <th><span>location</span></th>
+        <th><span>begins at</span></th>
+        <th><span>participants</span></th>
+      </tr>
+    </table>
+}{
+  <link rel="stylesheet" media="screen" href='@routes.Assets.at("stylesheets/scheduler/dashboard.css")'>
+}{
+
+}

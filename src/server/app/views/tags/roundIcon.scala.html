@@ -1,0 +1,7 @@
+@(params: Map[String, String])
+
+<a id='@params.get("id")'
+    href='@params.get("href")'
+    class='round-icon @if(params.get("class") != null){@params.get("class")}'>
+  <div class="text"><span>@params.get("value")</span></div>
+</a>

@@ -1,114 +1,115 @@
 @import "mixins.less";
 
 .navbar {
-	background: #02A50F;
-	position: relative;
-	overflow: hidden;
-	width: 100%;
-	height: 96px;
-	border-bottom: 1px #d8d8d8 solid;
+  background: #02A50F;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 96px;
+  border-bottom: 1px #d8d8d8 solid;
 
-	.background-container {
-		background: url("/assets/images/navbar/background.jpg") no-repeat;
-		position: absolute;
-		left: 50%;
-		top: 0;
-		width: 1680px;
-		height: 100%;
-		margin: 0 0 0 -840px;
-	}
+  .background-container {
+    background: url("/assets/images/navbar/background.jpg") no-repeat;
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: 1680px;
+    height: 100%;
+    margin: 0 0 0 -840px;
+  }
 
-	.base-container {
-		position: relative;
-		width: 85%;
-		height: 100%;
-		margin: 0 auto;
-	}
+  .base-container {
+    position: relative;
+    width: 85%;
+    height: 100%;
+    margin: 0 auto;
+  }
 
-	.button.logo-link {
-		float: none;
-		position: absolute;
-		width: 75px;
-		height: 60px;
-		left: 0;
-		top: 50%;
-		margin: -28px 0 0;
-	}
+  .button.logo-link {
+    float: none;
+    position: absolute;
+    width: 75px;
+    height: 60px;
+    left: 0;
+    top: 50%;
+    margin: -28px 0 0;
+  }
 
-	.navigation {
-		position: absolute;
-		top: 50%;
-		right: 0;
-		margin: -20px 0 0;
-	}
+  .navigation {
+    width: 140px;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    margin: -20px 0 0;
+  }
 
-	.button {
-		float: left;
-		display: block;
-		width: 40px;
-		height: 40px;
-		margin: 3px;
+  .button {
+    float: left;
+    display: block;
+    width: 40px;
+    height: 40px;
+    margin: 3px;
 
-		.icon {
-			position: relative;
-			width: 100%;
-			height: 100%;
+    .icon {
+      position: relative;
+      width: 100%;
+      height: 100%;
 
-			.icon-comp {
-				position: absolute;
-				width: 100%;
-				height: 100%;
+      .icon-comp {
+        position: absolute;
+        width: 100%;
+        height: 100%;
 
-				.transition(opacity 100ms ease);
-			}
+        .transition(opacity 100ms ease);
+      }
 
-			.hover { opacity: 0; }
+      .hover { opacity: 0; }
 
-			.active { opacity: 0; }
-		}
+      .active { opacity: 0; }
+    }
 
-		.icon:hover {
-			.hover { opacity: 1; }
+    .icon:hover {
+      .hover { opacity: 1; }
 
-			.active { opacity: 0; }
-		}
+      .active { opacity: 0; }
+    }
 
-		.icon:active {
-			.hover { opacity: 0; }
+    .icon:active {
+      .hover { opacity: 0; }
 
-			.active { opacity: 1; }
-		}
-	}
+      .active { opacity: 1; }
+    }
+  }
 
-	.home-icon {
-		.base { background-image: url("/assets/images/navbar/ic-dashboard.png"); }
-		.hover { background-image: url("/assets/images/navbar/ic-dashboard-hover.png"); }
-		.active { background-image: url("/assets/images/navbar/ic-dashboard-active.png"); }
-	}
+  .home-icon {
+    .base { background-image: url("/assets/images/navbar/ic-dashboard.png"); }
+    .hover { background-image: url("/assets/images/navbar/ic-dashboard-hover.png"); }
+    .active { background-image: url("/assets/images/navbar/ic-dashboard-active.png"); }
+  }
 
-	.create-icon {
-		.base { background-image: url("/assets/images/navbar/ic-create.png"); }
-		.hover { background-image: url("/assets/images/navbar/ic-create-hover.png"); }
-		.active { background-image: url("/assets/images/navbar/ic-create-active.png"); }
-	}
+  .create-icon {
+    .base { background-image: url("/assets/images/navbar/ic-create.png"); }
+    .hover { background-image: url("/assets/images/navbar/ic-create-hover.png"); }
+    .active { background-image: url("/assets/images/navbar/ic-create-active.png"); }
+  }
 
-	.settings-icon {
-		.base { background-image: url("/assets/images/navbar/ic-settings.png"); }
-		.hover { background-image: url("/assets/images/navbar/ic-settings-hover.png"); }
-		.active { background-image: url("/assets/images/navbar/ic-settings-active.png"); }
-	}
+  .settings-icon {
+    .base { background-image: url("/assets/images/navbar/ic-settings.png"); }
+    .hover { background-image: url("/assets/images/navbar/ic-settings-hover.png"); }
+    .active { background-image: url("/assets/images/navbar/ic-settings-active.png"); }
+  }
 
-	.logo-icon {
-		.base { background-image: url("/assets/images/navbar/ic-logo.png"); }
-		.hover { background-image: url("/assets/images/navbar/ic-logo-hover.png"); }
-		.active { background-image: url("/assets/images/navbar/ic-logo-active.png"); }
-	}
+  .logo-icon {
+    .base { background-image: url("/assets/images/navbar/ic-logo.png"); }
+    .hover { background-image: url("/assets/images/navbar/ic-logo-hover.png"); }
+    .active { background-image: url("/assets/images/navbar/ic-logo-active.png"); }
+  }
 }
 
 .main-body {
-	width: 90%;
-	padding: 2em 5em 1em;
-	margin: 0 auto;
+  width: 90%;
+  padding: 2em 5em 1em;
+  margin: 0 auto;
 
-	.box-sizing;
+  .box-sizing;
 }

@@ -1,0 +1,57 @@
+@import tags._
+
+@navbarLayout("Create New Event", "createEventPage", "page-create-event"){
+  <h1 class="heading-1">create</h1>
+  <form id="mainForm" class="main-form" method="post" action="@controllers.scheduler.routes.CreateEvent.createEvent">
+    <div class="column">
+      <div class="field-container">
+        <label class="heading-2" for="name">event name</label>
+        <input type="text" name="name" />
+      </div>
+
+      <div class="field-container">
+        <label class="heading-2" for="location">location</label>
+        <label class="text-helper" for="location">optional</label>
+        <textarea name="location" rows="1"></textarea>
+      </div>
+
+      <div class="field-container">
+        <label class="heading-2" for="description">description</label>
+        <label class="text-helper" for="description">optional</label>
+        <textarea name="description" rows="2"></textarea>
+      </div>
+    </div>
+    <div class="column clearfix">
+      <div class="field-container">
+        <label class="heading-2" for="invitees">invitees</label>
+        <textarea id="invitees" name="invitees" rows="5"></textarea>
+      </div>
+
+      <div class="field-container">
+        <label class="heading-2" for="cutoff">decide by</label>
+        <input type="text" id="cutoff" name="cutoff" />
+      </div>
+
+      <div class="field-container">
+        @flatButton(Map(
+            "value" -> "next",
+            "icon" -> "right-arrow",
+            "id" -> "submitButton",
+            "class" -> "submit-button"))
+      </div>
+    </div>
+  </form>
+}{
+  <link rel="stylesheet" media="screen" href='@routes.Assets.at("javascripts/libs/jquery-ui/css/ui-lightness/jquery-ui.css")' />
+  <link rel="stylesheet" media="screen" href='@routes.Assets.at("stylesheets/scheduler/createEvent.css")' />
+}{
+  <script src='@routes.Assets.at("javascripts/libs/jquery-ui/js/jquery-ui.js")' type="text/javascript"></script>
+  <script src='@routes.Assets.at("javascripts/libs/jquery-validate-min.js")' type="text/javascript"></script>
+  <script src='@routes.Assets.at("javascripts/libs/tag-input.js")' type="text/javascript"></script>
+  <script src='@routes.Assets.at("javascripts/scheduler/views/createView.js")' type="text/javascript"></script>
+  <script>
+    $(function(){
+      new Entwine.scheduler.views.CreateEventsView({ el: "#createEventPage" });
+    });
+  </script>
+}
