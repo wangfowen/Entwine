@@ -1,0 +1,36 @@
+@(account: database.models.FullAccount, eventList: scala.collection.mutable.Buffer[database.models.Event])
+
+@navbarLayout("Dashboard", "dashboardPage", "page-dashboard"){
+	<h1 class="heading-1">hello @account.getFormattedName()!</h1>
+	@if(account.hasCreatedEvents){
+		<p class="text-plain prompt-text">Here are your upcoming events. You can also <a class="link bold" href="@controllers.scheduler.routes.CreateEvent.index">create a new event</a>.</p>
+		<table class="event-table">
+			<tr class="heading-2">
+				<th><span>name</span></th>
+				<th><span>location</span></th>
+				<th><span>begins at</span></th>
+				<th><span>participants</span></th>
+			</tr>
+			@for(event <- eventList){
+				<tr class="text-plain">
+					<td><span>@event.getName()</span></td>
+					<td><span>@event.getLocation()</span></td>
+					<td><span>
+						@if(event.getBestTimeBlock() == null){
+							Waiting on participants to reply
+						} else {
+							@event.getBestTimeBlock().format("MMMM dd, yyyy H:mm a")
+						}
+					</span></td>
+					<td><span>@event.getParticipationCount() / @event.getInvitedCount() have accepted</span></td>
+				</tr>
+			}
+		</table>
+	} else {
+		<p class="text-plain">You have no upcoming events :(<br />Why don't you <a class="link bold" href="@controllers.scheduler.routes.CreateEvent.index">create one</a>?</p>
+	}
+}{
+	<link rel="stylesheet" media="screen" href='@routes.Assets.at("stylesheets/scheduler/dashboard.css")'>
+}{
+	
+}

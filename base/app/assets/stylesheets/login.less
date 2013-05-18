@@ -1,0 +1,99 @@
+@import "mixins.less";
+
+.page-login {
+	padding: 2em 0 0;
+	
+	.login-panel {
+		overflow: hidden;
+		width: 32.5em;
+		margin: 0 auto;
+		
+		.box-shadow (1px 2px 4px 1px #999);
+		.border-radius (1em);
+		
+		header {
+			background: url("/assets/images/login/header-background.png") no-repeat #fdae07 50% 0;
+			text-align: center;
+			vertical-align: middle;
+			width: 100%;
+			height: 66px;
+			padding: 0.6em 0 0;
+			
+			.box-sizing;
+			
+			.title {
+				color: #fff;
+				font-family: Petita;
+				font-size: 1.75em;
+				font-weight: bold;
+			}
+		}
+		
+		.body {
+			text-align: center;
+			padding: 1.9em 5em 2em;
+			
+			.prompt-text {
+				color: #777;
+				font-size: 0.9em;
+				margin: 0 0 1.3em;
+			}
+			
+			.text-error {
+			}
+			
+			.login-form {
+				text-align: left;
+				
+				input {
+					width: 100%;
+				}
+				
+				.heading-2 {
+					color: #777;
+				}
+				
+				.field-container.signup {
+					display: none;
+				}
+				
+				.wrapper {
+					width: 100%;
+				}
+				
+				.wrapper.signup {
+					display: none;
+				}
+				
+				.container {
+					display: table;
+					width: 100%;
+					margin: 2em 0 0;
+				
+					.left,
+					.right {
+						display: table-cell;
+						text-align: center;
+						vertical-align: middle;
+						width: 50%;
+					}
+				}
+			}
+				
+			.n-button {
+				margin: 0 auto;
+				width: 5em
+			}
+			
+			.signup-button,
+			.back-button {
+				background-color: #3bc9f4;
+			}
+			
+			.signup-button:hover,
+			.back-button:hover {
+				background-color: #94e6ff;
+			}
+		}
+	}
+}

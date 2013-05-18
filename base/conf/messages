@@ -1,0 +1,19 @@
+scheduler.email.signature=Entwine Team
+
+scheduler.email.onCreateEvent.creator.subject=You have created the event {0}!
+scheduler.email.onCreateEvent.creator.body=Access your event <a href="{0}">here</a>!
+
+scheduler.email.onCreateEvent.invitee.subject={0} has invited you to {1}!
+scheduler.email.onCreateEvent.invitee.body=Please choose your availabilities <a href="{0}">here</a>!
+
+scheduler.email.onAcceptInvitation.creator.subject={0} has accepted your invitation!
+scheduler.email.onAcceptInvitation.creator.body={0} has accepted your invitation to the event {1}! You can view their selected availabilities at {2}.
+
+scheduler.email.onScheduleEvent.creator.subject=Your event {0} has been scheduled!
+scheduler.email.onScheduleEvent.creator.body=Hi {0}!</br></br>Your event {1} has been scheduled for {2}. Other times are also available at: </br></br>{3}</br></br>Please visit {4} to confirm the meeting date.
+
+scheduler.email.onScheduleEvent.invitee.subject=The event {0} has been scheduled!
+scheduler.email.onScheduleEvent.invitee.body=Hi {0}!</br></br>The event {1} has been scheduled for {2}.
+
+scheduler.timeRangeString={0} to {1}
+scheduler.timeFormat=HH:mm z, MMMM dd, yyyy

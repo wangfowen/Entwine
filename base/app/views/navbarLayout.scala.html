@@ -1,0 +1,49 @@
+@(title: String, id: String, cssClass: String)(content: Html)(stylesheets: Html)(scripts: Html)
+
+@layout(title){
+	<header class="navbar">
+		<div class="background-container" src='@routes.Assets.at("images/navbar/background.jpg")'></div>
+		<div class="base-container">
+			<a href="@controllers.scheduler.routes.Dashboard.index" class="logo-link button">
+				<div class="icon logo-icon">
+					<div class="icon-comp base"></div>
+					<div class="icon-comp hover"></div>
+					<div class="icon-comp active"></div>
+				</div>
+			</a>
+			<nav class="navigation clearfix">
+				<a class="button" href="/scheduler/dashboard">
+					<div class="icon home-icon">
+						<div class="icon-comp base"></div>
+						<div class="icon-comp hover"></div>
+						<div class="icon-comp active"></div>
+					</div>
+				</a>
+				<a class="button" href="/scheduler/create">
+					<div class="icon create-icon">
+						<div class="icon-comp base"></div>
+						<div class="icon-comp hover"></div>
+						<div class="icon-comp active"></div>
+					</div>
+				</a>
+				<a class="button" href="/account/settings">
+					<div class="icon settings-icon">
+						<div class="icon-comp base"></div>
+						<div class="icon-comp hover"></div>
+						<div class="icon-comp active"></div>
+					</div>
+				</a>
+			</nav>
+		</div>
+	</header>
+	<section class="main-body">
+		<section id="@id" class="@cssClass">
+			@content
+		</section>
+	</section>
+}{
+	<link rel="stylesheet" media="screen" href='@routes.Assets.at("stylesheets/navbarBaseStyle.css")' />
+	@stylesheets
+}{
+	@scripts
+}

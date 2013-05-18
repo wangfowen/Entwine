@@ -1,0 +1,80 @@
+----------------- FONT SIGHTINGS ACROSS PAGES ----------------- 
+
+Homepage:
+	Microsoft Yi Baiti, 	25px, 			#569315
+	Petita Light, 		24px, 			#515151
+	Petita Light, 		24px, 			#489e10
+
+Settings:
+	Trebuchet MS, 		60px, 			#1fc10e
+	Arial, 			24px, 			#515151
+	Arial, 			24px, 			#58c142
+
+Create: 
+	Trebuchet MS, 		60px, 			#1fc10e
+	Arial, 			24px, 			#58c142
+	Arial, 			18px, 			#666666
+	Arial, 			15px, 			#ffffff
+	Arial, 			10px, 			#a5a5a5
+	Arial, 			24px, 			#ffffff
+	Arial, 			14px, 			#666666
+	Arial, 			14px, 			#3eb732
+
+Dashboard: 
+	Trebuchet MS, 		60px, 			#1fc10e
+	Arial, 			24px, 			#515151
+	Arial, 			24px, 			#58c142
+	Arial, 			15px, 			#515151
+	Arial, 			24px, 			#147f0e
+
+Calendar: 
+	Trebuchet MS, 		60px,	 		#1fc10e
+	Arial, 			14px, 			#7b8473
+	Arial, 			24px, 			#58c142
+	
+
+----------------- FONTS ----------------- 
+
+ITEM 			FREQUENCY		LOCATION
+
+Microsoft Yi Baiti	1			Homepage
+Petita Light		2			Homepage
+Trebuchet MS		4			Settings, Create, Dashboard, Calendar
+Arial 			15			Settings, Create, Dashboard, Calendar
+
+----------------- FONT SIZE ----------------- 
+
+ITEM 			FREQUENCY		LOCATION
+
+25 px			1			Homepage
+24 px			10			Homepage, Settings, Create, Dashboard, Calendar
+60 px			4			Settings, Create, Dashboard, Calendar
+18 px			1			Create
+15 px			2			Create, Dashboard
+10 px			1			Create
+14 px			3			Create
+
+----------------- COLOR ----------------- 
+
+ITEM			FREQUENCY		LOCATION
+
+#569315			1			Homepage
+#515151			3			Homepage, Settings, Dashboard
+#489e10			1			Homepage
+#1fc10e			4			Settings, Create, Dashboard, Calendar
+#58c142			4			Settings, Create, Dashobard, Calendar
+#666666			2 			Create
+#ffffff			2			Create
+#a5a5a5			1			Create
+#3eb732			1			Create
+#147f0e			1			Dashboard
+#7b8473			1			Calendar
+#58c142			1			Calendar
+
+----------------- EXACT MATCHES ----------------- 
+
+ITEM 				LOCATIONS
+
+Arial, 24px, #515151		Settings, Dashboard
+Arial, 24px, #58c142		Settings, Create, Dashboard, Calendar
+Trebuchet MS, 60px, #1fc10e	Settings, Create, Dashboard, Calendar

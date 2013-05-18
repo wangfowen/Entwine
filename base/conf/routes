@@ -1,0 +1,26 @@
+# Routes
+# This file defines all application routes(Higher priority routes first)
+# ~~~~
+
+# Home page
+GET		/								controllers.Main.index
+POST	/subscribe						controllers.Main.subscribe(email: String ?= null)
+GET		/login							controllers.Login.index(email: String ?= null)
+POST	/login							controllers.Login.login(email: String ?= null, password: String ?= null)
+POST	/signup							controllers.Login.signup(email: String ?= null, password: String ?= null)
+GET		/account/settings				controllers.account.Settings.index
+GET		/scheduler/dashboard			controllers.scheduler.Dashboard.index
+GET		/scheduler/create				controllers.scheduler.CreateEvent.index
+POST	/scheduler/create				controllers.scheduler.CreateEvent.createEvent
+GET		/scheduler/selecttime			controllers.scheduler.SelectTime.index(eventId: Long ?= -1, userId: Long ?= -1)
+
+# REST API
+PUT		/api/account/password			controllers.account.rest.AccountRest.Password.put
+PUT		/api/account/email				controllers.account.rest.AccountRest.Email.put
+
+GET		/api/scheduler/event			controllers.scheduler.rest.EventsRest.get
+GET		/api/scheduler/participation	controllers.scheduler.rest.ParticipationsRest.get
+POST	/api/scheduler/participation	controllers.scheduler.rest.ParticipationsRest.post
+
+# Map static resources from the /public folder to the /assets URL path
+GET		/assets/*file					 controllers.Assets.at(path="/public", file)

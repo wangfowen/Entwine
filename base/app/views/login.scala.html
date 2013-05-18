@@ -1,0 +1,73 @@
+@(email: String, error: Option[String] = None)
+
+@import tags._
+
+@navbarLayout("Entwine", "loginPage", "page-login"){
+	<section id="loginPanel" class="login-panel small-drop-shadow">
+		<header>
+			<span class="title">you're awesome</span>
+		</header>
+		<section class="body">
+			<p class="prompt-text">Please signup, or login if you've already done so!</p>
+			<form id="loginForm" class="login-form" method="post" action="" data-login="@routes.Login.login()" data-signup="@routes.Login.signup()">
+				<div class="field-container">
+					<label class="heading-2">email address</label>
+					<input type="text" name="email" id="email" value="@email" autofocus />
+				</div>
+				<div class="field-container">
+					<label class="heading-2">password</label>
+					<input type="password" name="password" id="password" />
+				</div>
+				<div id="confirmPasswordContainer" class="field-container signup">
+					<label class="heading-2"> confirm password</label>
+					<input type="password" name="confirmPassword" id="confirmPassword" />
+				</div>
+				@if(!error.isEmpty){
+					<p class="text-error">@error.get</p>
+				}
+				<div id="loginButtonContainer" class="wrapper">
+					<div class="container">
+						<div class="left">
+							@flatButton(Map(
+								"value" -> "signup",
+								"id" -> "signupButton",
+								"class" -> "signup-button"))
+						</div>
+						<div class="right">
+							@flatButton(Map(
+								"value" -> "login",
+								"id" -> "loginButton",
+								"class" -> "login-button"))
+						</div>
+					</div>
+				</div>
+				<div id="signupButtonContainer" class="wrapper signup">
+					<div class="container">
+						<div class="left">
+							@flatButton(Map(
+								"value" -> "back",
+								"id" -> "backButton",
+								"class" -> "back-button"))
+						</div>
+						<div class="right">
+							@flatButton(Map(
+								"value" -> "submit",
+								"id" -> "submitButton",
+								"class" -> "submit-button"))
+						</div>
+					</div>
+				</div>
+			</form>
+		</section>
+	</section>
+}{
+	<link rel="stylesheet" media="screen" href='@routes.Assets.at("stylesheets/login.css")'>
+}{
+	<script src='@routes.Assets.at("libraries/jquery-validate-min.js")' type="text/javascript"></script>
+	<script src='@routes.Assets.at("scripts/login.js")' type="text/javascript"></script>
+	<script type="text/javascript">
+		$(function(){
+			var view = new Entwine.views.LoginView({ el: "#loginPanel" });
+		});
+	</script>
+}

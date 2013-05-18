@@ -1,0 +1,5 @@
+@(params: Map[String, String])(content: Html)
+
+<div id='@params.get("id")' class='dialog @if(params.get("class") != null){@params.get("class")}'>
+	@content
+</div>

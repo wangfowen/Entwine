@@ -1,0 +1,87 @@
+@(account: database.models.FullAccount)
+
+@import tags._
+
+@navbarLayout("Account Settings", "accountSettingsPage", "page-account-settings"){
+	<h1 class="heading-1">account settings</h1>
+	<ul id="optionsList" class="options-list heading-3">
+		<li class="option-item">
+			<a data-title="Change your email address" id="changeEmail" class="link list" href="">Change your email address</a>
+		</li>
+		<li class="option-item">
+			<a data-title="Change your password" id="changePassword" class="link list" href="">Change your password</a>
+		</li>
+		<!-- <li class="option-item">
+			<a id="connect" class="link list" href="">Connect your services</a>
+		</li>
+		<li class="option-item">
+			<a id="invite" class="link list" href="">Invite your friends</a>
+		</li>
+		<li class="option-item">
+			<a id="feedback" class="link list" href="">Send us feedback</a>
+		</li> -->
+	</ul>
+	<div class="hidden">
+		<section id="changeEmailContent" class="settings-dialog">
+			<p class="current-info">Your current email address is <span id="currentEmail" class="text-plain emphasis">@account.getEmailAccount().getEmail().</span></p>
+			<p id="changeEmailLabel" class="hidden"></p>
+			<form id="changeEmailForm" class="form-container">
+				<div class="column left">
+					<div class="field-container">
+						<label class="heading-2" for="newEmail">new email</label>
+						<input type="text" name="newEmail" id="newEmail" />
+					</div>
+					<div class="field-container">
+						<label class="heading-2" for="confirmNewEmail">confirm email</label>
+						<input type="text" name="confirmNewEmail" id="confirmNewEmail" />
+					</div>
+				</div>
+				<div class="column right">
+					@flatButton(Map(
+						"value" -> "save",
+						"icon" -> "right-arrow",
+						"id" -> "changeEmailSubmit",
+						"class" -> "submit-button"))
+				</div>
+			</form>
+		</section>
+		<section id="changePasswordContent" class="settings-dialog">
+			<p id="changePasswordLabel" class="hidden"></p>
+			<form id="changePasswordForm" class="form-container">
+				<div class="column left">
+					<div class="field-container">
+						<label class="heading-2" for="oldPassword">old password</label>
+						<input type="password" name="oldPassword" id="oldPassword" />
+					</div>
+					<div class="field-container">
+						<label class="heading-2" for="newPassword">new password</label>
+						<input type="password" name="newPassword" id="newPassword" />
+					</div>
+					<div class="field-container">
+						<label class="heading-2" for="confirmNewPassword">confirm password</label>
+						<input type="password" name="confirmNewPassword" id="confirmNewPassword" />
+					</div>
+				</div>
+				<div class="column right">
+					@flatButton(Map(
+						"value" -> "save",
+						"icon" -> "right-arrow",
+						"id" -> "changePasswordSubmit",
+						"class" -> "submit-button"))
+				</div>
+			</form>
+		</section>
+	</div>
+}{
+	<link rel="stylesheet" media="screen" href='@routes.Assets.at("stylesheets/account/settings.css")'>
+}{
+	<script src='@routes.Assets.at("libraries/jquery-ui/js/jquery-ui.js")' type="text/javascript"></script>
+	<script src='@routes.Assets.at("libraries/jquery-validate-min.js")' type="text/javascript"></script>
+	<script src='@routes.Assets.at("libraries/jquery-colorbox.js")' type="text/javascript"></script>
+	<script src='@routes.Assets.at("scripts/account/views/settings.js")' type="text/javascript"></script>
+	<script type="text/javascript">
+		$(function () {
+			var view = new Entwine.account.views.SettingsView();
+		});
+	</script>
+}

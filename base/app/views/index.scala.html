@@ -1,0 +1,35 @@
+@(error: Option[String] = None)
+@layout("Entwine"){
+	<header>
+		<img src='@routes.Assets.at("images/home/header.jpg")' />
+		<h1>PLAN LIKE YOU'VE NEVER PLANNED BEFORE</h1>
+	</header>
+	<div class="body text-plain">
+		<section class="top-section">
+			<p>Entwine is a web application that helps people schedule faster and more easily by optimizing the planning process.</p>
+			@if(!error.isEmpty){
+				<p class="text-error">@error.get</p>
+			}
+			<form class="mailing-form" method="post" action="@routes.Main.subscribe()">
+				<label class="green">Enter your email address and enjoy:</label>
+				<input type="text" name="email" id="email" class="field-input" /><input type="submit" class="next-button" value="" />
+			</form>
+			<p class="alternative text-plain small">Or if you have already subscribed, log in <a class="link bold" href="@routes.Login.index()">here</a>.</p>
+		</section>
+		<div class="divider">
+			<img src='@routes.Assets.at("images/home/divider.png")' />
+		</div>
+		<section>
+			<p>Planning only takes <span class="green">two</span> steps.<br />Create an event, send your availabilities.</p>
+			<p>Leave the rest to us - just be ready to confirm the event!</p>
+			<div class="images">
+				<img src='@routes.Assets.at("images/home/image1.jpg")' />
+				<img src='@routes.Assets.at("images/home/image2.png")' />
+			</div>
+		</section>
+	</div>
+}{
+	<link rel="stylesheet" media="screen" href='@routes.Assets.at("stylesheets/homepage.css")'>
+}{
+	
+}

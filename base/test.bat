@@ -1,0 +1,1 @@
+play test -Ddb.url="postgres://EntwineAdmin:c0c1d2LO@127.0.0.1:5433/EntwineWebDB-Test"
