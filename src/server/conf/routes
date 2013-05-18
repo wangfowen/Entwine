@@ -4,6 +4,7 @@
 
 # Home page
 GET     /                           controllers.Application.index
-
+GET     /login                      controllers.Login.index(email: String ?= null)
+POST    /subscribe                  controllers.Application.subscribe(email: String ?= null)
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

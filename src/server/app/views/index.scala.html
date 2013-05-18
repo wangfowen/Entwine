@@ -1,7 +1,31 @@
-@(message: String)
-
-@main("Welcome to Play 2.1") {
-    
-    @play20.welcome(message)
-    
+@(error: Option[String] = None)
+@main("Entwine") {
+  <header>
+    <img src='@routes.Assets.at("images/home/header.jpg")' />
+    <h1>plan like you've never planned before</h1>
+  </header>
+  <div class="body text-plain">
+    <section class="top-section">
+      <p>entwine is a web application that helps people schedule faster and more easily by optimizing the planning process.</p>
+      @if(!error.isEmpty){
+        <p class="text-error">@error.get</p>
+      }
+      <form class="mailing-form" method="post" action="@routes.Application.subscribe()">
+        <label class="green">enter your email address and enjoy:</label>
+        <input type="text" name="email" id="email" class="field-input" /><input type="submit" class="next-button" value="" />
+      </form>
+      <p class="alternative text-plain small">or if you have already subscribed, log in <a class="link bold" href="@routes.Login.index()">here</a>.</p>
+    </section>
+    <div class="divider">
+      <img src='@routes.Assets.at("images/home/divider.png")' />
+    </div>
+    <section>
+      <p>planning only takes <span class="green">two</span> steps.<br />create an event, send your availabilities.</p>
+      <p>leave the rest to us - just be ready to confirm the event!</p>
+      <div class="images">
+        <img src='@routes.Assets.at("images/home/image1.jpg")' />
+        <img src='@routes.Assets.at("images/home/image2.png")' />
+      </div>
+    </section>
+  </div>
 }
