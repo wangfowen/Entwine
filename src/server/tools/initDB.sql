@@ -1,0 +1,3 @@
+CREATE DATABASE Entwine;
+CREATE USER 'Entwine'@'localhost' IDENTIFIED BY '923e1eac5ce6db205696ffe355bbfafd992017697ef';
+GRANT ALL PRIVILEGES ON Entwine.* TO 'Entwine'@'localhost' WITH GRANT OPTION;
