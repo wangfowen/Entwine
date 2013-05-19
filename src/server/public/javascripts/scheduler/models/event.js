@@ -10,10 +10,10 @@ Entwine.scheduler.models.Event = Backbone.Model.extend({
     },
     "participants": Entwine.scheduler.models.Participants
   },
-  
+
   "url": "/api/event",
   "idAttribute": "eventId",
-  
+
   "parse": function(aResponse, aOptions) {
     var ret = aResponse;
     ret["participants"] = new Entwine.scheduler.collections.Participants(aResponse["participants"], { "parse": true });

@@ -12,7 +12,7 @@ Entwine.scheduler.views.EventsFinalizeView = Backbone.View.extend({
     this.ctbModel = new Entwine.scheduler.collections.CommonTimeblocks({
       "url": Entwine.scheduler.collections.CommonTimeblocks.prototype.url + "/" + eventId
     });
-    
+
     this.calendarObject = new Entwine.scheduler.views.widgets.Calendar({
       "el": $("#calendarContainer"),
       "model": this.ctbModel
@@ -21,11 +21,11 @@ Entwine.scheduler.views.EventsFinalizeView = Backbone.View.extend({
       "el": $("#timeslotListContainer"),
       "model": this.ctbModel
     });
-    
+
     this.eventModel = new Entwine.scheduler.models.Event({
-      "url": Entwine.scheduler.models.Event.prototype.url = "/" + eventId
+      "url": Entwine.scheduler.models.Event.prototype.url + "/" + eventId
     });
-    
+
     this.ctbModel.fetch();
     this.eventModel.fetch(function (aModel) {
       self.$el.find("#eventTitle").text(aModel.get("event")["name"]);
@@ -35,7 +35,7 @@ Entwine.scheduler.views.EventsFinalizeView = Backbone.View.extend({
 
   finalize: function (aEvent) {
     aEvent.preventDefault();
-    
+
     $.ajax({
       "url": "/api/selectTime",
       "type": "POST",
