@@ -10,25 +10,25 @@
       @if(!error.isEmpty){
         <p class="text-error">@error.get</p>
       }
-      <form class="mailing-form" method="post" action="@routes.Application.loginHandler">
+      <form class="mailing-form" method="post" data-validate="parsley" action="@routes.Application.loginHandler">
         <p class="green">Log in and enjoy:</p>
         <div id="extra-fields" >
           <div class="input-group">
-            <label for="first-name">First Name:</label>
-            <input type="text" name="first-name" id="first-name" class="field-input">
+            <label for="firstName">First Name:</label>
+            <input type="text" name="firstName" id="firstName" data-required="true" class="field-input">
           </div>
           <div class="input-group">
-            <label for="last-name">Last Name:</label>
-            <input type="text" name="last-name" id="last-name" class="field-input">
+            <label for="lastName">Last Name:</label>
+            <input type="text" name="lastName" id="lastName" data-required="true" class="field-input">
           </div>
         </div>
         <div class="input-group">
           <label for="email">Email:</label>
-          <input type="email" name="email" id="email" class="field-input" />
+          <input type="email" name="email" id="email" data-required="true" class="field-input" />
         </div>
         <div class="input-group">
           <label for="password">Password:</label>
-          <input type="password" name="password" id="password" class="field-input" />
+          <input type="password" name="password" id="password" data-required="true" class="field-input" />
         </div>
         <input type="submit" id="submit" class="next-button" value="Login" />
       </form>
@@ -74,6 +74,17 @@
       $register.html('Register here');
       $regText.html("Don't have an account?");
       $form.attr("action", "@routes.Application.loginHandler()");
+    }
+  });
+
+  $form.parsley( 'addListener', {
+    onFieldValidate: function ( elem ) {
+      // if field is not visible, do not apply Parsley validation
+      if (!$( elem ).is(':visible')) {
+        return true;
+      }
+
+      return false;
     }
   });
 </script>

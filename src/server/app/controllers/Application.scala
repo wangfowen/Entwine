@@ -47,7 +47,7 @@ object Application extends Controller {
       values =>
         User.authenticate(values._1, values._2) match {
           case Some(x) =>
-            Redirect(routes.Application.index).withSession(
+            Redirect(scheduler.routes.Dashboard.index).withSession(
               session + ("userId" -> x.userId.toString) + ("connTime" -> (System.currentTimeMillis / 1000).toString))
           case None =>
             BadRequest
@@ -62,7 +62,7 @@ object Application extends Controller {
       values =>
         (User.register _).tupled(values) match {
           case Some(userId) =>
-            Redirect(routes.Application.index).withSession("userId" -> userId.toString)
+            Redirect(scheduler.routes.Dashboard.index).withSession("userId" -> userId.toString)
           case None =>
             BadRequest
         }
