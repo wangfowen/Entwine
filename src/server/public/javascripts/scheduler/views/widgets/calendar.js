@@ -50,7 +50,6 @@ Entwine.scheduler.views.widgets.Calendar = Backbone.View.extend({
           allDay: allDay,
           layer: 0
         };
-console.log(self);
         self.model.addTimeBlock(event);
         self.calendarObject.fullCalendar("refetchEvents");
         self.calendarObject.fullCalendar("unselect");
