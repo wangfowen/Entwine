@@ -9,8 +9,8 @@ class SmtpScheduler(senderCount: Int) extends Actor {
   val smtpRouter = context.actorOf(Props[SmtpSender].withRouter(SmallestMailboxRouter(senderCount)), name = "smtpRouter")
 
   def receive = {
-    case NewEmail(user) =>
+    case NewInvite(email, link, user) =>
       Logger.debug("SMTP: Attempting to send a test email")
-      smtpRouter ! NewEmail(user)
+      smtpRouter ! NewInvite(email, link, user)
   }
 }

@@ -1,4 +1,6 @@
 package smtp
 
+import models.User
+
 sealed trait SmtpMessage
-case class NewEmail(user: Int) extends SmtpMessage
+case class NewInvite(email: String, link: String, user: User) extends SmtpMessage
