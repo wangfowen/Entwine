@@ -47,7 +47,7 @@ object Application extends Controller {
       values =>
         User.authenticate(values._1, values._2) match {
           case Some(x) =>
-            Redirect(routes.Application.index).withSession(
+            Redirect(scheduler.routes.Dashboard.index).withSession(
               session + ("userId" -> x.userId.toString) + ("connTime" -> (System.currentTimeMillis / 1000).toString))
           case None =>
             BadRequest
@@ -62,40 +62,10 @@ object Application extends Controller {
       values =>
         (User.register _).tupled(values) match {
           case Some(userId) =>
-            Redirect(routes.Application.index).withSession("userId" -> userId.toString)
+            Redirect(scheduler.routes.Dashboard.index).withSession("userId" -> userId.toString)
           case None =>
             BadRequest
         }
     )
   }
-
-  def subscribe(_email: String) = Action { implicit request =>
-    try {
-      var email = _email
-      if (email == null)
-        email = subscribeForm.bindFromRequest.get
-
-      try {
-        /*
-
-        TODO: val subscriber = AccountsAPI.createSubscriber(email)
-
-        Global.automailerActor.tell(
-          EmailMsg(
-            subscriber.getEmailAccount.getEmail(),
-            "",
-            ""
-          )
-        )
-
-      */
-        Redirect(controllers.routes.Login.index(email))
-      }
-      catch {
-        case e: IllegalArgumentException =>
-          BadRequest(views.html.index(Some(e.getMessage())))
-      }
-    }
-  }
-
 }
