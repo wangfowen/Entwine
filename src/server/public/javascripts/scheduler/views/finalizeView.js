@@ -26,7 +26,11 @@ Entwine.scheduler.views.EventsFinalizeView = Backbone.View.extend({
       "url": Entwine.scheduler.models.Event.prototype.url + "/" + eventId
     });
 
-    this.ctbModel.fetch();
+    //this.ctbModel.fetch();
+    this.ctbModel.models[0].attributes.attendees = 2;
+    this.ctbModel.models[0].attributes.startTime = 1368982667908;
+    this.ctbModel.models[0].attributes.endTime = 1369022400000;
+    console.log(this.ctbModel);
     this.eventModel.fetch(function (aModel) {
       self.$el.find("#eventTitle").text(aModel.get("event")["name"]);
       self.$el.find("#eventDescription").text(aModel.get("event")["description"]);
@@ -49,10 +53,10 @@ Entwine.scheduler.views.EventsFinalizeView = Backbone.View.extend({
     this.ctbModel.save(this.model.toJSON(), {
       success: function () {
         _this.calendarObject.fullCalendar("refetchEvents");
-        alert("You have successfully selected your time.");
+        alertify.success("You have successfully selected your time.");
       },
       error: function () {
-        alert("Oops, there appears to be a server error.");
+        alertify.error("Oops, there appears to be a server error.");
       }
     });
   }
