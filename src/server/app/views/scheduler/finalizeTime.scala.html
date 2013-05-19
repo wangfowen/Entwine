@@ -1,0 +1,47 @@
+@(userId: Long, event: database.models.Event)
+
+@import tags._
+
+@navbarLayout("Finalize Time", "finalizeTimePage", "page-finalize-time clearfix"){
+  <section class="col-left">
+    <header class="title-pane">
+      <h1 id="eventTitle" class="heading-1">title</h1>
+      <h3 id="eventDescription" class="sub-heading-1">description</h3>
+    </header>
+    <div id="calendarContainer" class="calender-container"></div>
+  </section>
+  <section class="col-right">
+    <h2 id="heading-2">Best Timeslots</h2>
+    <div id="timeslotList" class="timeslot-list"></div>
+    <article id="selectionBox">
+      <p>You have currently selected this date:</p>
+      <h2 id="selectedDate" class="heading-2">date</h2>
+    </article>
+  </section>
+  @flatButton(Map(
+      "value" -> "finalize my event",
+      "id" -> "finalizeButton",
+      "class" -> "finalize-button"))
+}{
+  <link rel="stylesheet" media="screen" href='@routes.Assets.at("stylesheets/fullcalendar.css")'>
+  <link rel="stylesheet" media="screen" href='@routes.Assets.at("stylesheets/scheduler/selectTime.css")' />
+}{
+  <script src='@routes.Assets.at("javascripts/libs/fullcalendar.js")' type="text/javascript"></script>
+  <script src='@routes.Assets.at("javascripts/scheduler/models/participation.js")' type="text/javascript"></script>
+  <script src='@routes.Assets.at("javascripts/scheduler/views/finalizeView.js")' type="text/javascript"></script>
+
+  <script>
+    var model = null;
+    var view = null;
+    $(function(){
+      model = new Entwine.scheduler.models.Participation({
+        userId: @userId,
+        eventId: @event.getId()
+      });
+      view = new Entwine.scheduler.views.EventsSelectView({
+        el: "#selectTimePage",
+        model: model
+      });
+    });
+  </script>
+}
