@@ -1,6 +1,7 @@
 package models
 
 import anorm._
+import anorm.SqlParser._
 import play.api.Play.current
 import play.api.db._
 import com.roundeights.hasher.Hasher
@@ -46,12 +47,18 @@ object User {
   }
 
   def authenticate(email: String, password: String): Option[User] = {
-    val hashedPassword = Hasher(password).bcrypt.toString
     DB.withConnection { implicit c =>
-      SQL("SELECT * FROM User WHERE email = {email} AND password = {hashedPassword} AND joinedDate IS NOT NULL;")
-          .on("email" -> email,
-              "hashedPassword" -> hashedPassword)
-          .as(SqlResultParser.user.singleOpt)
+      val hashedPassword = SQL("SELECT password FROM User WHERE email = {email} AND joinedDate IS NOT NULL;")
+          .on("email" -> email)
+          .as(scalar[String].single)
+      (Hasher(password).bcrypt= hashedPassword) match {
+        case true =>
+          SQL("SELECT * FROM User WHERE email = {email} AND joinedDate IS NOT NULL;")
+              .on("email" -> email)
+              .as(SqlResultParser.user.singleOpt)
+        case false =>
+          None
+      }
     }
   }
 
