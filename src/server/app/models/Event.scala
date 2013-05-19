@@ -16,7 +16,7 @@ case class Event(
 object Event {
   def create(ownerId: Long, name: String, description: String, location: String): Option[Long] = {
     DB.withConnection { implicit c =>
-      val eventId = SQL("INSERT INTO Event(name, description, location, ownerId, createdDate) VALUES({name}, {description}, {location}, {ownerId}, UNIX_TIMESTAMP());")
+      val eventId = SQL("INSERT INTO Event(name, description, location, ownerId, createdDate) VALUES({name}, {description}, {location}, {ownerId}, UNIX_TIMESTAMP() * 1000);")
           .on("name" -> name,
               "description" -> description,
               "location" -> location,

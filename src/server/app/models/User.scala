@@ -21,7 +21,7 @@ object User {
     DB.withConnection { implicit c =>
       getUser(email) match {
         case Some(User(userId,_,_,_,_,None)) =>
-          SQL("UPDATE User SET password = {hashedPassword}, firstName = {firstName}, lastName = {lastName}, joinedDate = UNIX_TIMESTAMP() WHERE email = {email};")
+          SQL("UPDATE User SET password = {hashedPassword}, firstName = {firstName}, lastName = {lastName}, joinedDate = UNIX_TIMESTAMP() * 1000 WHERE email = {email};")
               .on("email" -> email,
                   "hashedPassword" -> hashedPassword,
                   "firstName" -> firstName,
@@ -33,7 +33,7 @@ object User {
           None
 
         case None =>
-          val userId = SQL("INSERT INTO User(email, password, firstName, lastName, createdDate, joinedDate) VALUES({email}, {hashedPassword}, {firstName}, {lastName}, UNIX_TIMESTAMP(), UNIX_TIMESTAMP());")
+          val userId = SQL("INSERT INTO User(email, password, firstName, lastName, createdDate, joinedDate) VALUES({email}, {hashedPassword}, {firstName}, {lastName}, UNIX_TIMESTAMP() * 1000, UNIX_TIMESTAMP() * 1000);")
               .on("email" -> email,
                   "hashedPassword" -> hashedPassword,
                   "firstName" -> firstName,
@@ -70,7 +70,7 @@ object User {
         case Some(_) =>
           None
         case None =>
-          val userId = SQL("INSERT INTO User(email, password, firstName, lastName, createdDate) VALUES({email}, NULL, NULL, NULL, UNIX_TIMESTAMP());")
+          val userId = SQL("INSERT INTO User(email, password, firstName, lastName, createdDate) VALUES({email}, NULL, NULL, NULL, UNIX_TIMESTAMP() * 1000);")
               .on("email" -> email)
               .executeInsert()
           userId

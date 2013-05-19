@@ -30,7 +30,7 @@ object Participation {
 
   def createEntry(status: Status.Value, role: Role.Value, participantId: Long, eventId: Long): Option[Long] = {
     DB.withConnection { implicit c =>
-      SQL("INSERT INTO Participation(status, role, participantId, eventId, respondedDate) VALUES({status}, {role}, {participantId}, {eventId}, UNIX_TIMESTAMP());")
+      SQL("INSERT INTO Participation(status, role, participantId, eventId, respondedDate) VALUES({status}, {role}, {participantId}, {eventId}, UNIX_TIMESTAMP() * 1000);")
           .on("status" -> status.id,
               "role" -> role.id,
               "participantId" -> participantId,
