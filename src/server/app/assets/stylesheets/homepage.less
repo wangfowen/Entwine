@@ -36,7 +36,6 @@ p {
 
 .body {
   font-family: Petita, Helvetica, Arial;
-  width: 45em;
   margin: 0 auto;
   padding: 0 0 5em;
 }
@@ -58,31 +57,57 @@ p {
   text-align: center;
   margin: 1em 0 0;
   letter-spacing: 1px;
-}
 
-.mailing-form label {
-  vertical-align: middle;
-  padding: 0 1em 0 0;
-}
+  p {
+    margin-bottom: 5px;
+  }
 
-.mailing-form input {
-  vertical-align: top;
-  border: none;
-  height: 36px;
-  .box-sizing;
-}
+  .input-group {
+    margin-bottom: 10px;
+    display: block;
+  }
 
-.mailing-form .field-input {
-  width: 25em;
-  padding: 0.5em 1em;
-}
+  .input-group:after {
+    clear: both;
+  }
 
-.mailing-form .next-button {
-  background: url("/assets/images/home/arrow.png") no-repeat;
-  width: 36px;
-  color: white;
-  border: none;
-  cursor: pointer;
+  label {
+    vertical-align: middle;
+    text-align: right;
+    float: left;
+    width: 120px;
+    display: block;
+  }
+
+  input {
+    vertical-align: top;
+    border: none;
+    height: 36px;
+    .box-sizing;
+  }
+
+  .field-input {
+    width: 450px;
+    display: inline-block;
+  }
+
+  .next-button {
+    background: #00932E;
+    color: white;
+    border: none;
+    cursor: pointer;
+    line-height: 11px;
+    left: -128px;
+    position: relative;
+  }
+
+  .next-button:hover {
+    background: #00B937;
+  }
+
+  #extra-fields {
+    display: none;
+  }
 }
 
 .text-error {
