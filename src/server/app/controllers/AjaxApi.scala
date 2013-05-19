@@ -30,11 +30,16 @@ object AjaxApi extends Controller with Authentication {
     }.getOrElse(BadRequest)
   }
 
+  def getContacts = IsAuthenticated { userId => request =>
+    Ok(Json.toJson(Contact.get(userId)))
+  }
+
   def createEvent = IsAuthenticated(BodyParsers.parse.json) { implicit userId => request =>
     request.body.validate[JsonRequest.CreateEvent].map { parsed =>
       val eventId = Event.create(userId, parsed.name, parsed.description, parsed.location).get
       parsed.participants.foreach { p =>
-        Participation.createParticipant(Participation.Role(p.role), p.email, eventId)
+        val participantId = Participation.createParticipant(Participation.Role(p.role), p.email, eventId).get
+        Contact.create(userId, participantId)
       }
       Ok(Json.obj("eventId" -> eventId))
     }.getOrElse(BadRequest)

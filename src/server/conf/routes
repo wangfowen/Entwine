@@ -15,6 +15,7 @@ GET     /scheduler/finalize         controllers.scheduler.FinalizeTime.index(eve
 # AJAX API
 POST    /api/register               controllers.AjaxApi.register
 POST    /api/login                  controllers.AjaxApi.login
+GET     /api/contacts               controllers.AjaxApi.getContacts
 GET     /api/event/$id<[0-9]+>      controllers.AjaxApi.getEvent(id: Long)
 POST    /api/event                  controllers.AjaxApi.createEvent
 GET     /api/events                 controllers.AjaxApi.getEvents
