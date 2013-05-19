@@ -9,8 +9,8 @@ object SqlResultParser {
   val user = {
     get[Long]("userId")~
     get[String]("email")~
-    get[String]("firstName")~
-    get[String]("lastName")~
+    get[Option[String]]("firstName")~
+    get[Option[String]]("lastName")~
     get[Date]("createdDate")~
     get[Option[Date]]("joinedDate") map {
       case userId~email~firstName~lastName~createdDate~joinedDate =>
