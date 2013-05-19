@@ -32,7 +32,7 @@ Entwine.scheduler.views.widgets.Calendar = Backbone.View.extend({
         var ret = self.model.map(function (a) {
           return a.get("_metadata");
         });
-        aCallback(ret);
+        aCallback(ret || []);
       },
       "firstDay": 0,
       "eventClick": function (aEvent) {
@@ -76,14 +76,16 @@ Entwine.scheduler.views.widgets.Calendar = Backbone.View.extend({
     });
   },
   
-  "save": function (aOnSuccess, aOnFailure) {
+  "save": function (aOnSuccess, aOnFailure, aData) {
     var self = this;
     var params = {
       "url": this.model.url,
       "type": "PUT",
       "contentType": "application/json",
       "dataType": "json",
-      "data": JSON.stringify(this.model.toJSON())
+      "data": JSON.stringify(_.extend(aData, {
+        "timeBlocks": this.model.toJSON()
+      }))
     };
     
     $.ajax(params).success(function () {
