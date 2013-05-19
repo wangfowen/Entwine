@@ -12,7 +12,7 @@ case class Participation(
   role: Participation.Role.Value,
   participantId: Long,
   eventId: Long,
-  respondedDate: Date
+  respondedDate: Option[Date]
 )
 
 object Participation {
@@ -30,7 +30,7 @@ object Participation {
     val Owner = Value(2)
   }
 
-  def create(status: Status.Value, role: Role.Value, participantId: Long, eventId: Long): Option[Long] = {
+  def createEntry(status: Status.Value, role: Role.Value, participantId: Long, eventId: Long): Option[Long] = {
     DB.withConnection { implicit c =>
       SQL("INSERT INTO Participation(status, role, participantId, eventId, respondedDate) VALUES({status}, {role}, {participantId}, {eventId}, NOW());")
           .on("status" -> status.id,
@@ -39,6 +39,19 @@ object Participation {
               "eventId" -> eventId)
           .executeInsert()
     }
+  }
+
+  def createParticipant(role: Role.Value, email: String, eventId: Long): Option[Long] = {
+    val userId = User.getUser(email) match {
+      case Some(user) =>
+        user.userId
+      case None =>
+        User.create(email).get
+    }
+
+    createEntry(Status.Invited, role, userId, eventId)
+
+    // TODO: Send email as well
   }
 
   def isOwner(userId: Long, eventId: Long): Boolean = {

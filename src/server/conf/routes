@@ -12,5 +12,13 @@ POST    /scheduler/create           controllers.scheduler.CreateEvent.createEven
 GET     /scheduler/select           controllers.scheduler.SelectTime.index(eventId: Long ?= -1, userId: Long ?= -1)
 GET     /scheduler/finalize         controllers.scheduler.FinalizeTime.index(eventId: Long ?= -1)
 
+# AJAX API
+POST    /api/register               controllers.AjaxApi.register
+POST    /api/login                  controllers.AjaxApi.login
+GET     /api/event/$id<[0-9]+>      controllers.AjaxApi.getEvent(id: Long)
+POST    /api/event                  controllers.AjaxApi.createEvent
+GET     /api/events                 controllers.AjaxApi.getEvents
+
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

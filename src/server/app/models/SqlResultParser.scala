@@ -44,7 +44,7 @@ object SqlResultParser {
     get[Int]("role")~
     get[Long]("participantId")~
     get[Long]("eventId")~
-    get[Date]("respondedDate") map {
+    get[Option[Date]]("respondedDate") map {
       case participationId~status~role~participantId~eventId~respondedDate =>
         Participation(participationId, Participation.Status(status), Participation.Role(role), participantId, eventId, respondedDate)
     }
