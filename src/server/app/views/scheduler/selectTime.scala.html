@@ -6,7 +6,7 @@
   <div class="clearfix">
     <div class="title-pane">
       <h1 class="heading-1">your availability</h1>
-      <span class="sub-heading-1">for <span class="emphasis">name</span></span>
+      <span class="sub-heading-1">for <span id="name" class="emphasis"></span></span>
       @roundIcon(Map(
           "value" -> "?",
           "id" -> "infoIcon",
@@ -17,9 +17,9 @@
           "id" -> "infoDialog",
           "class" -> "info-dialog")){
         <h3 class="heading-3">location</h3>
-        <p class="text-plain small">location</p>
+        <p class="text-plain small" id="location"></p>
         <h3 class="heading-3">description</h3>
-        <p class="text-plain small">description</p>
+        <p class="text-plain small" id="description"></p>
       }
     </div>
   </div>

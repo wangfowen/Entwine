@@ -38,8 +38,14 @@ Entwine.scheduler.views.EventsSelectView = Backbone.View.extend({
 
     $('.info-pane').css("position", "absolute");
 
-    this.eventModel.fetch();
+    this.eventModel.fetch({ success: function(model, response, options) {
+      console.log(model.get("event"));
+      $('#name').html(model.get("event").name);
+      $('#location').html(model.get("event").location);
+      $('#description').html(model.get("event").description);
+    }});
     this.timeblockModel.fetch();
+
   },
 
   plan: function (aEvent) {
