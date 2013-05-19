@@ -15,7 +15,9 @@ case class TimeBlock(
 object TimeBlock{
   def update(participationId: Long, timeBlocks: List[JsonRequest.TimeBlock]) {
     DB.withConnection { implicit c =>
-      SQL("DELETE FROM TimeBlock WHERE participationId = {participationId};").execute()
+      SQL("DELETE FROM TimeBlock WHERE participationId = {participationId};")
+          .on("participationId" -> participationId)
+          .executeUpdate()
 
       timeBlocks foreach { block =>
         SQL("INSERT INTO TimeBlock(participationId, startTime, endTime) VALUES({participationId}, {startTime}, {endTime});")

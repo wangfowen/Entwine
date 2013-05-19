@@ -15,16 +15,16 @@
     }
     </p>
       <form class="mailing-form" method="post" id="login" data-validate="parsley" action="@routes.Application.loginHandler">
-          <input type="email" name="email" id="login-email" data-type="email" data-required="true" data-minlength="3" class="field-input" placeholder="Email" />
-          <input type="password" name="password" id="login-password" data-required="true" class="field-input" data-minlength="6" placeholder="Password" />
+        <input type="email" name="email" id="login-email" data-type="email" data-required="true" data-minlength="3" class="field-input" placeholder="Email" />
+        <input type="password" name="password" id="login-password" data-required="true" class="field-input" data-minlength="6" placeholder="Password" />
         <input type="submit" id="submit" class="next-button" value="Login" />
       </form>
 
       <form class="mailing-form" method="post" id="signup" data-validate="parsley" action="@routes.Application.registerHandler">
-            <input type="text" name="firstName" id="firstName" data-required="true" class="field-input" placeholder='First Name'>
-            <input type="text" name="lastName" id="lastName" data-required="true" class="field-input" placeholder='Last Name'>
-          <input type="email" name="email" id="email" data-required="true" class="field-input" data-minlength="3" placeholder="Email" />
-          <input type="password" name="password" id="password" data-required="true" class="field-input" data-minlength="6" placeholder="Password" />
+        <input type="text" name="firstName" id="firstName" data-required="true" class="field-input" placeholder='First Name'>
+        <input type="text" name="lastName" id="lastName" data-required="true" class="field-input" placeholder='Last Name'>
+        <input type="email" name="email" id="email" data-required="true" class="field-input" data-minlength="3" placeholder="Email" />
+        <input type="password" name="password" id="password" data-required="true" class="field-input" data-minlength="6" placeholder="Password" />
         <input type="submit" id="submit" class="next-button" value="Sign up for free" />
       </form>
     </section>

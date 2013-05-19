@@ -1,7 +1,5 @@
 Entwine.scheduler.views.widgets.Calendar = Backbone.View.extend({
-  "defaults": {
-    "model": new Entwine.scheduler.collections.Timeblocks()
-  },
+  "defaults": {},
   
   "initialize": function (aOpts) {
     var opts = _.defaults(aOpts, this.defaults);
@@ -29,8 +27,10 @@ Entwine.scheduler.views.widgets.Calendar = Backbone.View.extend({
         right: "next"
       },
       "events": function (aStart, aEnd, aCallback) {
-        var ret = self.model.map(function (a) {
+        var ret = _.filter(self.model.map(function (a) {
           return a.get("_metadata");
+        }), function (a) {
+          return a;
         });
         aCallback(ret || []);
       },
@@ -89,7 +89,7 @@ Entwine.scheduler.views.widgets.Calendar = Backbone.View.extend({
     };
     
     $.ajax(params).success(function () {
-      self.calendarObject.fullCalendar("refetchEvents");
+      self.$el.fullCalendar("refetchEvents");
       aOnSuccess();
     }).fail(function () {
       aOnFailure();
