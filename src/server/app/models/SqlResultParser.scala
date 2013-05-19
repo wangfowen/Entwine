@@ -28,13 +28,13 @@ object SqlResultParser {
 
   val event = {
     get[Long]("eventId")~
-    get[Long]("ownerId")
     get[String]("name")~
     get[String]("description")~
     get[String]("location")~
+    get[Long]("ownerId")~
     get[Date]("createdDate") map {
-      case eventId~ownerId~name~description~location~createdDate =>
-        Event(eventId, ownerId, name, description, location, createdDate)
+      case eventId~name~description~location~ownerId~createdDate =>
+        Event(eventId, name, description, location, ownerId, createdDate)
     }
   }
 
@@ -46,7 +46,7 @@ object SqlResultParser {
     get[Long]("eventId")~
     get[Date]("respondedDate") map {
       case participationId~status~role~participantId~eventId~respondedDate =>
-        Participation(participationId, status, role, participantId, eventId, respondedDate)
+        Participation(participationId, Participation.Status(status), Participation.Role(role), participantId, eventId, respondedDate)
     }
   }
 
