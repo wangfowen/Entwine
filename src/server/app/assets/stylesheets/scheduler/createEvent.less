@@ -15,7 +15,7 @@
       width: 50%;
 
       .field-container {
-        input {
+        input, textarea, #invitees_tagsinput {
           margin-top: 2px;
         }
 
@@ -25,6 +25,16 @@
 
         .tagsinput {
           width: 100%;
+          resize: none;
+        }
+
+        #invitees_addTag {
+          margin-top: -10px;
+          resize: none;
+        }
+
+        #invitees_tag:focus {
+          outline: 1px none transparent;
         }
       }
     }
