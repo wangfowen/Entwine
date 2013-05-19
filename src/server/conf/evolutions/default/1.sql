@@ -25,7 +25,7 @@ CREATE TABLE Event(
   name VARCHAR(255) NOT NULL,
   description VARCHAR(255) NOT NULL,
   location VARCHAR(255) NOT NULL,
-  ownerId BIGINT,
+  ownerId BIGINT NOT NULL,
   createdDate DATETIME NOT NULL,
 
   PRIMARY KEY (eventId),
