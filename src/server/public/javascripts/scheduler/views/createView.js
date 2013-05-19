@@ -135,15 +135,20 @@ Entwine.scheduler.views.CreateEventsView = Backbone.View.extend({
                    role: role };
         });
 
-    $.post('/api/event',
-        {
+    $.ajax({
+      type: "POST",
+      url: '/api/event',
+      data: {
           name: name,
           description: description,
           location: loc,
           participants: invitees
-        },
-        function(data) {
+      },
+      success: function(data) {
           console.log(data);
-        });
+      },
+      dataType: "json",
+      contentType: "application/json"
+    });
   }
 });
