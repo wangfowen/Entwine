@@ -14,4 +14,10 @@ object JsonRequest {
 
   case class CreateEvent(name: String, description: String, location: String, participants: List[Participant])
   implicit val createEvent = Json.reads[CreateEvent]
+
+  case class TimeBlock(startTime: Long, endTime: Long)
+  implicit val timeBlock = Json.reads[TimeBlock]
+
+  case class SaveTimeBlocks(eventId: Long, timeBlocks: List[TimeBlock])
+  implicit val saveTimeBlocks = Json.reads[SaveTimeBlocks]
 }

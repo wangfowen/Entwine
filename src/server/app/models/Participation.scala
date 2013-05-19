@@ -52,6 +52,20 @@ object Participation {
     // TODO: Send email as well
   }
 
+  def getParticipationId(userId: Long, eventId: Long): Option[Long] = {
+    DB.withConnection { implicit c =>
+      SQL("SELECT * FROM Participation WHERE participantId = {userId} AND eventId = {eventId};")
+          .on("userId" -> userId,
+              "eventId" -> eventId)
+          .as(SqlResultParser.participation.singleOpt) match {
+        case Some(participation) =>
+          Some(participation.participationId)
+        case None =>
+          None
+      }
+    }
+  }
+
   def isOwner(userId: Long, eventId: Long): Boolean = {
     DB.withConnection { implicit c =>
       SQL("SELECT * FROM Participation WHERE participantId = {userId} AND eventId = {eventId} AND role = 2;")

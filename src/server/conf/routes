@@ -23,6 +23,8 @@ GET     /api/contacts               controllers.AjaxApi.getContacts
 GET     /api/event/$id<[0-9]+>      controllers.AjaxApi.getEvent(id: Long)
 POST    /api/event                  controllers.AjaxApi.createEvent
 GET     /api/events                 controllers.AjaxApi.getEvents
+GET     /api/timeblocks/$id<[0-9]+> controllers.AjaxApi.getTimeBlocks(id: Long)
+PUT     /api/timeblocks             controllers.AjaxApi.saveTimeBlocks
 
 
 # Map static resources from the /public folder to the /assets URL path

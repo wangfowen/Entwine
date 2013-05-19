@@ -60,4 +60,15 @@ object AjaxApi extends Controller with Authentication {
     val (events, participations) = Event.getAll(userId)
     Ok(Json.obj("events" -> events, "participations" -> participations))
   }
+
+  def getTimeBlocks(participationId: Long) = TODO
+
+  def saveTimeBlocks = IsAuthenticated(BodyParsers.parse.json) { implicit userId => request =>
+    request.body.validate[JsonRequest.SaveTimeBlocks].map { parsed =>
+      HasEventParticipantAccess(parsed.eventId) {
+        TimeBlock.update(userId, parsed.eventId, parsed.timeBlocks)
+        Ok("{}")
+      }
+    }.getOrElse(BadRequest)
+  }
 }
