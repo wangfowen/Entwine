@@ -72,6 +72,10 @@ Entwine.scheduler.views.CreateEventsView = Backbone.View.extend({
   render: function(){
     var _this = this;
 
+    _this.inviteeField.click(function(e) {
+      _this.input.focus();
+    });
+
     _this.input.keyup(function(e) {
       if (e.keyCode === 188 || e.keyCode === 32) {
         if (_this.input.val().length > 1) {
@@ -89,7 +93,7 @@ Entwine.scheduler.views.CreateEventsView = Backbone.View.extend({
         $('.invitee').last().remove();
       }
 
-      if (e.keyCode === 9 && _this.input.val().length > 0) {
+      if ((e.keyCode === 9 || e.keyCode === 13) && _this.input.val().length > 0) {
         _this.createInvitee(_this.input.val());
         _this.input.val('');
       }
