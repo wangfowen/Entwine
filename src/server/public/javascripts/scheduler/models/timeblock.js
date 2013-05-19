@@ -11,7 +11,74 @@ Entwine.scheduler.models.Timeblock = Backbone.Model.extend({
 Entwine.scheduler.collections.Timeblocks = Backbone.Collection.extend({
   "model": Entwine.scheduler.models.Timeblock,
   "url": "/api/timeblocks"
+    // var event = _event;
+// 
+    // var timeCompare = function (t1, t2) {
+      // return ((t1 >= t2) ? true : false);
+    // };
+// 
+    // for (var i = 0; i < timeBlocks.length; i++) {
+      // if (timeBlocks[i].allDay) {
+        // if (timeBlocks[i].start.getDate() === event.start.getDate())
+          // return;
+      // }
+      // else {
+        // var start1 = timeBlocks[i].start.getTime();
+        // var start2 = event.start.getTime();
+        // var end1 = timeBlocks[i].end.getTime();
+        // var end2 = event.end.getTime(), newStart, newEnd;
+//         
+        // var overlap = true;
+// 
+        // if (timeCompare(start2, start1) && timeCompare(end1, end2)) {
+          // newStart = start1;
+          // newEnd = end1;
+        // }
+        // else if (timeCompare(start2, start1) && timeCompare(end1, start2)) {
+          // newStart = start1;
+          // newEnd = end2;
+        // }
+        // else if (timeCompare(start1, start2) && timeCompare(end2, end1)) {
+          // newStart = start2;
+          // newEnd = end2;
+        // }
+        // else if (timeCompare(start1, start2) && timeCompare(end2, start1)) {
+          // newStart = start2;
+          // newEnd = end1;
+        // }
+        // else {
+          // if (event.allDay && timeBlocks[i].start.getDate() === event.start.getDate()) {
+            // newStart = start2;
+            // newEnd = end2;
+          // }
+          // else
+            // overlap = false;
+        // }
+//         
+        // if (overlap) {
+          // event = {
+            // start: new Date(newStart),
+            // end: new Date(newEnd),
+            // title: "",
+            // allDay: event.allDay,
+            // layer: event.layer
+          // };
+          // this.removeTimeBlock(timeBlocks[i]);
+          // i--;
+        // }
+      // }
+    // };
+//     
+    // timeBlocks.push(event);
+    // this.set("localTimeBlocks", timeBlocks);
 });
+
+
+// _.extend(Entwine.scheduler.collections.Timeblocks.prototype, {
+//   
+// });
+
+
 // {
   // defaults: {
     // deletedTimeBlocks: [],
