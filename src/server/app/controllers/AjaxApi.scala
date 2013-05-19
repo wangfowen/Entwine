@@ -6,6 +6,8 @@ import json.JsonResponse
 import play.api.Logger
 import play.api.libs.json._
 import play.api.mvc._
+import smtp.SmtpScheduler
+import smtp.NewInvite
 
 object AjaxApi extends Controller with Authentication {
   private implicit val userWrite = JsonResponse.user
@@ -38,12 +40,17 @@ object AjaxApi extends Controller with Authentication {
     Ok(Json.toJson(Contact.get(userId)))
   }
 
-  def createEvent = IsAuthenticated(BodyParsers.parse.json) { implicit userId => request =>
+  def createEvent = IsAuthenticated(BodyParsers.parse.json) { implicit userId => implicit request =>
     request.body.validate[JsonRequest.CreateEvent].map { parsed =>
       val eventId = Event.create(userId, parsed.name, parsed.description, parsed.location).get
       parsed.participants.foreach { p =>
         Participation.createParticipant(Participation.Role(p.role), p.email, eventId).get
-        Contact.create(userId, User.getUser(p.email).get.userId)
+        val user = User.getUser(p.email).get
+        Contact.create(userId, user.userId)
+        Application.smtpScheduler.tell(
+            NewInvite(
+                controllers.scheduler.routes.SelectTime.index(eventId, user.userId).absoluteURL(),
+                user))
       }
       Ok(Json.obj("eventId" -> eventId))
     }.getOrElse(BadRequest)
