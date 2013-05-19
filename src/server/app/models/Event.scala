@@ -18,12 +18,15 @@ case class Event(
 object Event {
   def create(ownerId: Long, name: String, description: String, location: String): Option[Long] = {
     DB.withConnection { implicit c =>
-      SQL("INSERT INTO Event(name, description, location, ownerId, createdDate) VALUES({name}, {description}, {location}, {ownerId}, NOW());")
+      val eventId = SQL("INSERT INTO Event(name, description, location, ownerId, createdDate) VALUES({name}, {description}, {location}, {ownerId}, NOW());")
           .on("name" -> name,
               "description" -> description,
               "location" -> location,
               "ownerId" -> ownerId)
           .executeInsert()
+
+      Participation.createEntry(Participation.Status.Owner, Participation.Role.Owner, ownerId, eventId.get)
+      eventId
     }
   }
 
@@ -32,6 +35,16 @@ object Event {
       SQL("SELECT * FROM Event WHERE eventId = {eventId};")
           .on("eventId" -> eventId)
           .as(SqlResultParser.event.singleOpt)
+    }
+  }
+
+  def getEventsAndParticipants(eventId: Long): (Event, List[Participation]) = {
+    DB.withConnection { implicit c =>
+      val event = get(eventId).get
+      val participants = SQL("SELECT P.* FROM Event E, Participation P WHERE E.eventId = P.eventId AND E.eventId = {eventId};")
+          .on("eventId" -> eventId)
+          .as(SqlResultParser.participation *)
+      (event, participants)
     }
   }
 

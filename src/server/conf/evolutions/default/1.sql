@@ -38,7 +38,7 @@ CREATE TABLE Participation(
   role INT NOT NULL,
   participantId BIGINT NOT NULL,
   eventId BIGINT NOT NULL,
-  respondedDate DATETIME NOT NULL,
+  respondedDate DATETIME,
 
   PRIMARY KEY (participationId),
   FOREIGN KEY (participantId) REFERENCES User(userId),
