@@ -5,11 +5,14 @@ Entwine.scheduler.views.CreateEventsView = Backbone.View.extend({
   mainForm: null,
   input: null,
 
-  createInvitee: function() {
+  events: {
+    "click #submitButton": "submit"
+  },
+
+  createInvitee: function(email) {
     var _this = this,
-        email = _this.input.val(),
         invitee = "<p class='invitee'>" +
-            "<span class='email'>" + email.substring(0, email.length -1) + "</span>" +
+            "<span class='email'>" + email + "</span>" +
             "<span class='hover-buttons'>" +
             "<label class='important'>" +
               "<input type='checkbox' value='1'>" +
@@ -72,7 +75,9 @@ Entwine.scheduler.views.CreateEventsView = Backbone.View.extend({
     _this.input.keyup(function(e) {
       if (e.keyCode === 188 || e.keyCode === 32) {
         if (_this.input.val().length > 1) {
-          _this.createInvitee();
+          //strip out the space / comma
+          var email = _this.input.val();
+          _this.createInvitee(email.substring(0, email.length -1));
         }
 
         _this.input.val('');
@@ -82,6 +87,11 @@ Entwine.scheduler.views.CreateEventsView = Backbone.View.extend({
     _this.input.keydown(function(e) {
       if (e.keyCode === 8 && _this.input.val() === "") {
         $('.invitee').last().remove();
+      }
+
+      if (e.keyCode === 9 && _this.input.val().length > 0) {
+        _this.createInvitee(_this.input.val());
+        _this.input.val('');
       }
     });
 
@@ -102,21 +112,38 @@ Entwine.scheduler.views.CreateEventsView = Backbone.View.extend({
         name: "this field is required",
         cutoff: "this field is required"
       },
-      submitHandler: function(_form){
-        _form["cutoff"].value = Utility.dateStrToUTC(_form["cutoff"].value);
-        _form.submit();
-      },
       errorClass: "text-error",
       errorPlacement: function(_error, _element){
         _error.insertBefore(_element);
       }
     });
 
-    this.submitButton.bind("click", function(_event){
-      _event.preventDefault();
-      _this.mainForm.submit();
-    });
-
     return this;
+  },
+
+  submit: function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    var name = $('#eventName').val(),
+        loc = $('#location').val(),
+        description = $('#description').val(),
+        cutoff = Utility.dateStrToUTC($('#cutoff').val()),
+        invitees = _.map($('.invitee'), function(invitee) {
+          var role = $(invitee).find('.important input').prop('checked') ? 1 : 0;
+          return { email: $(invitee).children('.email').html(),
+                   role: role };
+        });
+
+    $.post('/api/event',
+        {
+          name: name,
+          description: description,
+          location: loc,
+          participants: invitees
+        },
+        function(data) {
+          console.log(data);
+        });
   }
 });
