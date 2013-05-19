@@ -12,7 +12,8 @@
   </section>
   <section class="col-right">
     <h2 id="heading-2">Best Timeslots</h2>
-    <div id="timeslotList" class="timeslot-list"></div>
+    <ul id="timeslotList" class="timeslot-list">
+    </ul>
     <article id="selectionBox">
       <p>You have currently selected this date:</p>
       <h2 id="selectedDate" class="heading-2">date</h2>
@@ -26,21 +27,32 @@
   <link rel="stylesheet" media="screen" href='@routes.Assets.at("stylesheets/fullcalendar.css")'>
   <link rel="stylesheet" media="screen" href='@routes.Assets.at("stylesheets/scheduler/selectTime.css")' />
 }{
+  <script src='@routes.Assets.at("javascripts/libs/moment.min.js")' type="text/javascript"></script>
   <script src='@routes.Assets.at("javascripts/libs/fullcalendar.js")' type="text/javascript"></script>
-  <script src='@routes.Assets.at("javascripts/scheduler/models/participation.js")' type="text/javascript"></script>
+  <script src='@routes.Assets.at("javascripts/scheduler/models/commonTimeblock.js")' type="text/javascript"></script>
+  <script src='@routes.Assets.at("javascripts/scheduler/models/participant.js")' type="text/javascript"></script>
   <script src='@routes.Assets.at("javascripts/scheduler/views/finalizeView.js")' type="text/javascript"></script>
 
-  <script>
-    var model = null;
-    var view = null;
+  <script type="text/javascript">
     $(function(){
-      model = new Entwine.scheduler.models.Participation({
-        eventId: @eventId
-      });
-      view = new Entwine.scheduler.views.EventsSelectView({
-        el: "#selectTimePage",
-        model: model
+      new Entwine.scheduler.views.EventsSelectView({
+        "el": "#finalizeTimePage",
+        "eventId": @eventId
       });
     });
+  </script>
+  <script id="TLITimeslot" type="text/template">
+    <li class="timeslot-item">
+      <div class="table wide tall">
+        <div class="cell wide">
+          <p data-tid="date"><%= moment(date).format("MMMM Do, YYYY") ></p>
+          <p><%= moment(startTime).format("h:mm A") > - <%= moment(endTime).format("h:mm A") ></p>
+        </div>
+        <div class="cell">
+          <p data-tid="numNormal" class="ic-normal"><%= numNormal ></p>
+          <p data-tid="numImportant" class="ic-important"><%= numImportant ></p>
+        </div>
+      </div>
+    </li>
   </script>
 }

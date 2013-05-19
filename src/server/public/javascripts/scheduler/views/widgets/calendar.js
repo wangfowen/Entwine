@@ -1,4 +1,4 @@
-Entwine.widgets.views.Calendar = Backbone.View.extend({
+Entwine.scheduler.views.widgets.Calendar = Backbone.View.extend({
   "defaults": {
     "model": new Entwine.scheduler.collections.Participations()
   },
@@ -57,21 +57,23 @@ Entwine.widgets.views.Calendar = Backbone.View.extend({
       }
     });
     
-    this.model.fetch({
+    this.model.on("reset", {
       success: function (aModel, aResponse) {
         self.$el.fullCalendar("refetchEvents");
       }
     });
   },
   
-  "save": function () {
+  "save": function (aOnSuccess, aOnFailure) {
+    var self = this;
+    
     this.model.save(this.model.toJSON(), {
-      "success": function(){
-        _this.calendarObject.fullCalendar("refetchEvents");
-        alert("You have successfully selected your time.");
+      "success": function () {
+        self.calendarObject.fullCalendar("refetchEvents");
+        aOnSuccess();
       },
-      "error": function(){
-        alert("Oops, there appears to be a server error.");
+      "error": function () {
+        aOnFailure();
       }
     });
   }

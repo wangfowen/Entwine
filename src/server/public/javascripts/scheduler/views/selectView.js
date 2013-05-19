@@ -7,30 +7,40 @@ Entwine.scheduler.views.EventsSelectView = Backbone.View.extend({
   infoIcon: null,
   infoDialog: null,
 
-  initialize: function(){
-    var _this = this;
+  initialize: function (aOpts) {
+    var self = this;
+    var eventId = aOpts["eventId"];
+    var userId = aOpts["userId"];
 
     this.infoIcon = $("#infoIcon");
     this.infoDialog = $("#infoDialog");
-    this.render();
 
     this.infoIcon.on("mouseenter", function () {
-      _this.infoDialog.fadeTo(150, 1);
+      self.infoDialog.fadeTo(150, 1);
     });
 
     this.infoIcon.on("mouseleave", function () {
-      _this.infoDialog.fadeTo(150, 0);
+      self.infoDialog.fadeTo(150, 0);
     });
     
     this.calendarObject = new Entwine.widgets.views.Calendar({
       "el": $("#calendarContainer")
     });
+    
+    this.eventModel = new Entwine.scheduler.models.Event({
+      "url": Entwine.scheduler.models.Event.prototype.url = "/" + eventId
+    });
 
     return this;
   },
 
-  plan: function(_event){
-    _event.preventDefault();
-    this.calendarObject.save();
+  plan: function (aEvent) {
+    aEvent.preventDefault();
+    this.calendarObject.save(function () {
+      alert("You have successfully selected your time.");
+      window.href = "/scheduler/dashboard";
+    }, function () {
+      alert("Oops, there appears to be a server error.");
+    });
   }
 });

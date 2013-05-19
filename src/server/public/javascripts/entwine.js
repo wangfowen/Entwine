@@ -1,16 +1,18 @@
 var Entwine = {
-  account: {
-    collections: {},
-    models: {},
-    views: {}
+  "account": {
+    "collections": {},
+    "models": {},
+    "views": {}
   },
-  scheduler: {
-    collections: {},
-    models: {},
-    views: {}
+  "scheduler": {
+    "collections": {},
+    "models": {},
+    "views": {
+      "widgets": {}
+    }
   },
 
-  collections: {},
-  models: {},
-  views: {}
+  "collections": {},
+  "models": {},
+  "views": {}
 };

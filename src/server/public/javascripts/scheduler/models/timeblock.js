@@ -1,4 +1,4 @@
-Entwine.scheduler.models.Participation = Backbone.Model.extend({
+Entwine.scheduler.models.Timeblock = Backbone.Model.extend({
   "defaults": {
     "startTime": undefined,
     "endTime": undefined,
@@ -8,8 +8,8 @@ Entwine.scheduler.models.Participation = Backbone.Model.extend({
   "idAttribute": "participationId"
 });
 
-Entwine.scheduler.collections.Participations = Backbone.Collection.extend({
-  "model": Entwine.scheduler.models.Participation,
+Entwine.scheduler.collections.Timeblocks = Backbone.Collection.extend({
+  "model": Entwine.scheduler.models.Timeblock,
   "url": "/api/timeblocks"
 });
 // {
