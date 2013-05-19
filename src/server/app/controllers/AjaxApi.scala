@@ -29,4 +29,17 @@ object AjaxApi extends Controller with Authentication {
       }.getOrElse(BadRequest)
     }.getOrElse(BadRequest)
   }
+
+  def createEvent = TODO
+
+  def getEvent(eventId: Long) = IsAuthenticated { implicit userId => request =>
+    HasEventParticipantAccess(eventId) {
+      Ok(Json.toJson(Event.get(eventId).get))
+    }
+  }
+
+  def getEvents = IsAuthenticated { implicit userId => request =>
+    val (events, participations) = Event.getAll(userId)
+    Ok(Json.obj("events" -> events, "participations" -> participations))
+  }
 }

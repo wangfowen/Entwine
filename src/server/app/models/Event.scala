@@ -35,12 +35,34 @@ object Event {
     }
   }
 
-  def getAll(ownerId: Long): List[Event] = {
-    DB.withConnection {implicit c =>
-      SQL("SELECT * FROM Event WHERE ownerId = {ownerId};")
-          .on("ownerId" -> ownerId)
+  def getAll(userId: Long): (List[Event], List[Participation]) = {
+    DB.withConnection { implicit c =>
+      val events = SQL("SELECT E.* FROM Event E, Participation P WHERE E.eventId = P.eventId AND P.participantId = {userId} ORDER BY E.eventId ASC;")
+          .on("userId" -> userId)
           .as(SqlResultParser.event *)
+      val participations = SQL("SELECT P.* FROM Event E, Participation P WHERE E.eventId = P.eventId AND P.participantId = {userId} ORDER BY E.eventId ASC;")
+          .on("userId" -> userId)
+          .as(SqlResultParser.participation *)
+      (events, participations)
     }
   }
 
+  /*
+   * Determine if the userId owns eventId.
+   * Deprecated (To be consistent with isParticipant); Use Participation.isOwner instead.
+   */
+  @Deprecated
+  def isOwner(userId: Long, eventId: Long): Boolean = {
+    DB.withConnection { implicit c =>
+      SQL("SELECT * FROM Event WHERE eventId = {eventId} AND ownerId = {ownerId};")
+          .on("eventId" -> eventId,
+              "ownerId" -> userId)
+          .as(SqlResultParser.event.singleOpt) match {
+        case Some(_) =>
+          true
+        case None =>
+          false
+      }
+    }
+  }
 }

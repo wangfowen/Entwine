@@ -21,12 +21,13 @@ object Participation {
     val Invited = Value(1)
     val Responded = Value(2)
     val Declined = Value(3)
+    val Completed = Value(4)
   }
 
   object Role extends Enumeration {
-    val Owner = Value(0)
+    val Participant = Value(0)
     val Important = Value(1)
-    val Participant = Value(2)
+    val Owner = Value(2)
   }
 
   def create(status: Status.Value, role: Role.Value, participantId: Long, eventId: Long): Option[Long] = {
@@ -37,6 +38,34 @@ object Participation {
               "participantId" -> participantId,
               "eventId" -> eventId)
           .executeInsert()
+    }
+  }
+
+  def isOwner(userId: Long, eventId: Long): Boolean = {
+    DB.withConnection { implicit c =>
+      SQL("SELECT * FROM Participation WHERE participantId = {userId} AND eventId = {eventId} AND role = 2;")
+          .on("userId" -> userId,
+              "eventId" -> eventId)
+          .as(SqlResultParser.participation.singleOpt) match {
+        case Some(_) =>
+          true
+        case None =>
+          false
+      }
+    }
+  }
+
+  def isParticipant(userId: Long, eventId: Long): Boolean = {
+    DB.withConnection { implicit c =>
+      SQL("SELECT * FROM Participation WHERE participantId = {userId} AND eventId = {eventId} AND role >= 0;")
+          .on("userId" -> userId,
+              "eventId" -> eventId)
+          .as(SqlResultParser.participation.singleOpt) match {
+        case Some(_) =>
+          true
+        case None =>
+          false
+      }
     }
   }
 }
