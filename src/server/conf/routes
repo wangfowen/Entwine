@@ -9,6 +9,7 @@ POST    /signup                     controllers.Application.registerHandler
 GET     /scheduler/dashboard        controllers.scheduler.Dashboard.index
 GET     /scheduler/create           controllers.scheduler.CreateEvent.index
 POST    /scheduler/create           controllers.scheduler.CreateEvent.createEvent
+GET     /scheduler/create           controllers.scheduler.CreateEvent.index
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

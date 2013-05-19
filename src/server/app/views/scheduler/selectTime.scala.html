@@ -1,0 +1,54 @@
+@(userId: Long, event: database.models.Event)
+
+@import tags._
+
+@navbarLayout("Select Time", "selectTimePage", "page-select-time clearfix"){
+  <div class="clearfix">
+    <div class="title-pane">
+      <h1 class="heading-1">your availability</h1>
+      <span class="sub-heading-1">for <span class="emphasis">@event.getName()</span></span>
+      @roundIcon(Map(
+          "value" -> "?",
+          "id" -> "infoIcon",
+          "class" -> "info-icon"))
+    </div>
+    <div class="info-pane">
+      @dialog(Map(
+          "id" -> "infoDialog",
+          "class" -> "info-dialog")){
+        <h3 class="heading-3">location</h3>
+        <p class="text-plain small">@event.getLocation()</p>
+        <h3 class="heading-3">description</h3>
+        <p class="text-plain small">@event.getDescription()</p>
+      }
+    </div>
+  </div>
+  <div id="calendarContainer" class="calender-container"></div>
+  @flatButton(Map(
+      "value" -> "done",
+      "icon" -> "right-arrow",
+      "id" -> "submitButton",
+      "class" -> "submit-button"))
+}{
+  <link rel="stylesheet" media="screen" href='@routes.Assets.at("stylesheets/fullcalendar.css")'>
+  <link rel="stylesheet" media="screen" href='@routes.Assets.at("stylesheets/scheduler/finalizeTime.css")' />
+}{
+  <script src='@routes.Assets.at("javascripts/libs/fullcalendar.js")' type="text/javascript"></script>
+  <script src='@routes.Assets.at("javascripts/scheduler/models/participation.js")' type="text/javascript"></script>
+  <script src='@routes.Assets.at("javascripts/scheduler/views/selectView.js")' type="text/javascript"></script>
+
+  <script>
+    var model = null;
+    var view = null;
+    $(function(){
+      model = new Entwine.scheduler.models.Participation({
+        userId: @userId,
+        eventId: @event.getId()
+      });
+      view = new Entwine.scheduler.views.EventsSelectView({
+        el: "#selectTimePage",
+        model: model
+      });
+    });
+  </script>
+}
