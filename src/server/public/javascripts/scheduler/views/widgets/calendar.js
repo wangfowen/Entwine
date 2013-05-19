@@ -28,7 +28,12 @@ Entwine.scheduler.views.widgets.Calendar = Backbone.View.extend({
       },
       "events": function (aStart, aEnd, aCallback) {
         var ret = _.filter(self.model.map(function (a) {
-          return a.get("_metadata");
+          return a.get("_metadata") || {
+            "start": new Date(a.get("startTime")),
+            "end": new Date(a.get("endTime")),
+            "title": "",
+            "allDay": false 
+          };
         }), function (a) {
           return a;
         });
@@ -69,17 +74,15 @@ Entwine.scheduler.views.widgets.Calendar = Backbone.View.extend({
       }
     });
     
-    this.model.on("reset", {
-      success: function (aModel, aResponse) {
+    this.model.on("all", function (aModel, aResponse) {
         self.$el.fullCalendar("refetchEvents");
-      }
     });
   },
   
-  "save": function (aOnSuccess, aOnFailure, aData) {
+  "save": function (aOnSuccess, aOnFailure, aData, aUrl) {
     var self = this;
     var params = {
-      "url": this.model.url,
+      "url": this.model.prototype.url,
       "type": "PUT",
       "contentType": "application/json",
       "dataType": "json",

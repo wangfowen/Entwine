@@ -2,10 +2,11 @@ Entwine.scheduler.models.Timeblock = Backbone.Model.extend({
   "defaults": {
     "startTime": undefined,
     "endTime": undefined,
-    "participationId": undefined
+    "participationId": undefined,
+    "timeblockId": undefined
   },
   
-  "idAttribute": "participationId"
+  "idAttribute": "timeblockId"
 });
 
 Entwine.scheduler.collections.Timeblocks = Backbone.Collection.extend({

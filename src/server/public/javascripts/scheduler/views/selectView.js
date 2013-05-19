@@ -14,7 +14,7 @@ Entwine.scheduler.views.EventsSelectView = Backbone.View.extend({
     this.participationId = aOpts["participationId"];
 
     this.infoIcon = $("#infoIcon");
-    this.infoDialog = $("#infoDialog");
+    this.infoDialog = $("#infoDialog").css("opacity", "0");
 
     this.infoIcon.on("mouseenter", function () {
       self.infoDialog.fadeTo(150, 1);
@@ -35,17 +35,28 @@ Entwine.scheduler.views.EventsSelectView = Backbone.View.extend({
       "el": $("#calendarContainer"),
       "model": this.timeblockModel
     });
-    this.eventModel.fetch();
-    this.timeblockModel.fetch();
+
+    $('.info-pane').css("position", "absolute");
+
+    this.eventModel.fetch({ success: function(model, response, options) {
+      console.log(model.get("event"));
+      $('#name').html(model.get("event").name);
+      $('#location').html(model.get("event").location);
+      $('#description').html(model.get("event").description);
+    }});
+    this.timeblockModel.fetch(function () {
+      
+    });
+
   },
 
   plan: function (aEvent) {
     aEvent.preventDefault();
     this.calendarObject.save(function () {
-      alert("You have successfully selected your time.");
+      alertify.success("You have successfully selected your time.");
       window.href = "/scheduler/dashboard";
     }, function () {
-      alert("Oops, there appears to be a server error.");
+      alertify.error("Oops, there appears to be a server error.");
     }, {
       "eventId": this.eventId,
       "userId": this.userId
