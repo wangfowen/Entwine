@@ -49,8 +49,9 @@ object AjaxApi extends Controller with Authentication {
         Contact.create(userId, user.userId)
         Application.smtpScheduler.tell(
             NewInvite(
+                user.email,
                 controllers.scheduler.routes.SelectTime.index(eventId, user.userId).absoluteURL(),
-                user))
+                User.getUser(userId).get))
       }
       Ok(Json.obj("eventId" -> eventId))
     }.getOrElse(BadRequest)
