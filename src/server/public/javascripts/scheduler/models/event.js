@@ -16,7 +16,7 @@ Entwine.scheduler.models.Event = Backbone.Model.extend({
   
   "parse": function(aResponse, aOptions) {
     var ret = aResponse;
-    ret["participants"] = new Entwine.scheduler.models.Participants(aResponse["participants"], { "parse": true });
+    ret["participants"] = new Entwine.scheduler.collections.Participants(aResponse["participants"], { "parse": true });
     return ret;
   }
 });
