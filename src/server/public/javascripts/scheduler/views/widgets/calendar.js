@@ -1,6 +1,6 @@
 Entwine.scheduler.views.widgets.Calendar = Backbone.View.extend({
   "defaults": {
-    "model": new Entwine.scheduler.collections.Participants()
+    "model": new Entwine.scheduler.collections.Timeblocks()
   },
   
   "initialize": function (aOpts) {
@@ -29,15 +29,22 @@ Entwine.scheduler.views.widgets.Calendar = Backbone.View.extend({
         right: "next"
       },
       "events": function (aStart, aEnd, aCallback) {
-        aCallback(self.model.map(function (a) { return a; }));
+        var ret = self.model.map(function (a) {
+          return a.get("_metadata");
+        });
+        aCallback(ret);
       },
       "firstDay": 0,
       "eventClick": function (aEvent) {
         if (aEvent.layer)
           return true;
 
-        if (self.model.removeTimeBlock(aEvent))
-          self.calendarObject.fullCalendar("refetchEvents");
+        
+        self.model.remove(self.model.find(function (aElem) {
+          return aElem.get("startTime") == aEvent["start"].getTime() &&
+              aElem.get("endTime") == aEvent["end"].getTime();
+        }));
+        self.$el.fullCalendar("refetchEvents");
 
         return false;
       },
@@ -50,9 +57,15 @@ Entwine.scheduler.views.widgets.Calendar = Backbone.View.extend({
           allDay: allDay,
           layer: 0
         };
-        self.model.addTimeBlock(event);
-        self.calendarObject.fullCalendar("refetchEvents");
-        self.calendarObject.fullCalendar("unselect");
+        
+        self.model.add(new Entwine.scheduler.models.Timeblock({
+          "startTime": event["start"].getTime(),
+          "endTime": event["end"].getTime(),
+          "_metadata": event
+        }));
+        
+        self.$el.fullCalendar("refetchEvents");
+        self.$el.fullCalendar("unselect");
       }
     });
     
@@ -65,15 +78,19 @@ Entwine.scheduler.views.widgets.Calendar = Backbone.View.extend({
   
   "save": function (aOnSuccess, aOnFailure) {
     var self = this;
+    var params = {
+      "url": this.model.url,
+      "type": "PUT",
+      "contentType": "application/json",
+      "dataType": "json",
+      "data": JSON.stringify(this.model.toJSON())
+    };
     
-    this.model.save(this.model.toJSON(), {
-      "success": function () {
-        self.calendarObject.fullCalendar("refetchEvents");
-        aOnSuccess();
-      },
-      "error": function () {
-        aOnFailure();
-      }
+    $.ajax(params).success(function () {
+      self.calendarObject.fullCalendar("refetchEvents");
+      aOnSuccess();
+    }).fail(function () {
+      aOnFailure();
     });
   }
 });

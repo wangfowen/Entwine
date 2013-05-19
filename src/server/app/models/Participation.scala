@@ -4,15 +4,13 @@ import anorm._
 import play.api.Play.current
 import play.api.db._
 
-import java.util.Date
-
 case class Participation(
   participationId: Long,
   status: Participation.Status.Value,
   role: Participation.Role.Value,
   participantId: Long,
   eventId: Long,
-  respondedDate: Option[Date]
+  respondedDate: Option[Long]
 )
 
 object Participation {
@@ -32,7 +30,7 @@ object Participation {
 
   def createEntry(status: Status.Value, role: Role.Value, participantId: Long, eventId: Long): Option[Long] = {
     DB.withConnection { implicit c =>
-      SQL("INSERT INTO Participation(status, role, participantId, eventId, respondedDate) VALUES({status}, {role}, {participantId}, {eventId}, NOW());")
+      SQL("INSERT INTO Participation(status, role, participantId, eventId, respondedDate) VALUES({status}, {role}, {participantId}, {eventId}, UNIX_TIMESTAMP() * 1000);")
           .on("status" -> status.id,
               "role" -> role.id,
               "participantId" -> participantId,
@@ -52,6 +50,20 @@ object Participation {
     createEntry(Status.Invited, role, userId, eventId)
 
     // TODO: Send email as well
+  }
+
+  def getParticipationId(userId: Long, eventId: Long): Option[Long] = {
+    DB.withConnection { implicit c =>
+      SQL("SELECT * FROM Participation WHERE participantId = {userId} AND eventId = {eventId};")
+          .on("userId" -> userId,
+              "eventId" -> eventId)
+          .as(SqlResultParser.participation.singleOpt) match {
+        case Some(participation) =>
+          Some(participation.participationId)
+        case None =>
+          None
+      }
+    }
   }
 
   def isOwner(userId: Long, eventId: Long): Boolean = {

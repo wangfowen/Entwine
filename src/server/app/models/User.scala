@@ -6,15 +6,13 @@ import play.api.Play.current
 import play.api.db._
 import com.roundeights.hasher.Hasher
 
-import java.util.Date
-
 case class User(
   userId: Long,
   email: String,
   firstName: Option[String],
   lastName: Option[String],
-  createdDate: Date,
-  joinedDate: Option[Date]
+  createdDate: Long,
+  joinedDate: Option[Long]
 )
 
 object User {
@@ -23,7 +21,7 @@ object User {
     DB.withConnection { implicit c =>
       getUser(email) match {
         case Some(User(userId,_,_,_,_,None)) =>
-          SQL("UPDATE User SET password = {hashedPassword}, firstName = {firstName}, lastName = {lastName}, joinedDate = NOW() WHERE email = {email};")
+          SQL("UPDATE User SET password = {hashedPassword}, firstName = {firstName}, lastName = {lastName}, joinedDate = UNIX_TIMESTAMP() * 1000 WHERE email = {email};")
               .on("email" -> email,
                   "hashedPassword" -> hashedPassword,
                   "firstName" -> firstName,
@@ -35,7 +33,7 @@ object User {
           None
 
         case None =>
-          val userId = SQL("INSERT INTO User(email, password, firstName, lastName, createdDate, joinedDate) VALUES({email}, {hashedPassword}, {firstName}, {lastName}, NOW(), NOW());")
+          val userId = SQL("INSERT INTO User(email, password, firstName, lastName, createdDate, joinedDate) VALUES({email}, {hashedPassword}, {firstName}, {lastName}, UNIX_TIMESTAMP() * 1000, UNIX_TIMESTAMP() * 1000);")
               .on("email" -> email,
                   "hashedPassword" -> hashedPassword,
                   "firstName" -> firstName,
@@ -55,8 +53,8 @@ object User {
           (Hasher(password).bcrypt= hashedPassword) match {
             case true =>
               SQL("SELECT * FROM User WHERE email = {email} AND joinedDate IS NOT NULL;")
-                .on("email" -> email)
-                .as(SqlResultParser.user.singleOpt)
+                  .on("email" -> email)
+                  .as(SqlResultParser.user.singleOpt)
             case false =>
               None
           }
@@ -72,9 +70,9 @@ object User {
         case Some(_) =>
           None
         case None =>
-          val userId = SQL("INSERT INTO User(email, password, firstName, lastName, createdDate) VALUES({email}, NULL, NULL, NULL, NOW());")
-            .on("email" -> email)
-            .executeInsert()
+          val userId = SQL("INSERT INTO User(email, password, firstName, lastName, createdDate) VALUES({email}, NULL, NULL, NULL, UNIX_TIMESTAMP() * 1000);")
+              .on("email" -> email)
+              .executeInsert()
           userId
       }
     }
@@ -85,6 +83,14 @@ object User {
       SQL("SELECT * FROM User WHERE email = {email};")
         .on("email" -> email)
         .as(SqlResultParser.user.singleOpt)
+    }
+  }
+
+  def getUser(userId: Long): Option[User] = {
+    DB.withConnection { implicit c =>
+      SQL("SELECT * FROM User WHERE userId = {userId};")
+          .on("userId" -> userId)
+          .as(SqlResultParser.user.singleOpt)
     }
   }
 }

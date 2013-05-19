@@ -69,4 +69,9 @@ object Application extends Controller {
         }
     )
   }
+
+  def testHandler = Action {
+
+    Ok(User.getUser(1).toString)
+  }
 }

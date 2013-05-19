@@ -13,13 +13,18 @@ GET     /scheduler/select           controllers.scheduler.SelectTime.index(event
 GET     /scheduler/finalize         controllers.scheduler.FinalizeTime.index(eventId: Long ?= -1)
 GET     /account/settings            controllers.account.Settings.index
 
+GET     /test                       controllers.Application.testHandler
+
 # AJAX API
 POST    /api/register               controllers.AjaxApi.register
 POST    /api/login                  controllers.AjaxApi.login
+GET     /api/logout                 controllers.AjaxApi.logout
 GET     /api/contacts               controllers.AjaxApi.getContacts
 GET     /api/event/$id<[0-9]+>      controllers.AjaxApi.getEvent(id: Long)
 POST    /api/event                  controllers.AjaxApi.createEvent
 GET     /api/events                 controllers.AjaxApi.getEvents
+GET     /api/timeblocks/$id<[0-9]+> controllers.AjaxApi.getTimeBlocks(id: Long)
+PUT     /api/timeblocks             controllers.AjaxApi.saveTimeBlocks
 
 
 # Map static resources from the /public folder to the /assets URL path

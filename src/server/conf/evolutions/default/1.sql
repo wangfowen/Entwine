@@ -5,8 +5,8 @@ CREATE TABLE User(
   password VARCHAR(255),
   firstName VARCHAR(255),
   lastName VARCHAR(255),
-  createdDate DATETIME NOT NULL,
-  joinedDate DATETIME,
+  createdDate BIGINT NOT NULL,
+  joinedDate BIGINT,
 
   PRIMARY KEY (userId)
 );
@@ -26,7 +26,7 @@ CREATE TABLE Event(
   description VARCHAR(255) NOT NULL,
   location VARCHAR(255) NOT NULL,
   ownerId BIGINT NOT NULL,
-  createdDate DATETIME NOT NULL,
+  createdDate BIGINT NOT NULL,
 
   PRIMARY KEY (eventId),
   FOREIGN KEY (ownerId) REFERENCES User(userId)
@@ -38,7 +38,7 @@ CREATE TABLE Participation(
   role INT NOT NULL,
   participantId BIGINT NOT NULL,
   eventId BIGINT NOT NULL,
-  respondedDate DATETIME,
+  respondedDate BIGINT,
 
   PRIMARY KEY (participationId),
   FOREIGN KEY (participantId) REFERENCES User(userId),
@@ -48,8 +48,8 @@ CREATE TABLE Participation(
 CREATE TABLE TimeBlock(
   timeBlockId BIGINT NOT NULL AUTO_INCREMENT,
   participationId BIGINT NOT NULL,
-  startTime DATETIME NOT NULL,
-  endTime DATETIME NOT NULL,
+  startTime BIGINT NOT NULL,
+  endTime BIGINT NOT NULL,
 
   PRIMARY KEY (timeBlockId),
   FOREIGN KEY (participationId) REFERENCES Participation(participationId)

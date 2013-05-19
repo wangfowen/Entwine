@@ -30,6 +30,10 @@ object AjaxApi extends Controller with Authentication {
     }.getOrElse(BadRequest)
   }
 
+  def logout = Action { _ =>
+    Ok(Json.obj()).withNewSession
+  }
+
   def getContacts = IsAuthenticated { userId => request =>
     Ok(Json.toJson(Contact.get(userId)))
   }
@@ -55,5 +59,16 @@ object AjaxApi extends Controller with Authentication {
   def getEvents = IsAuthenticated { implicit userId => request =>
     val (events, participations) = Event.getAll(userId)
     Ok(Json.obj("events" -> events, "participations" -> participations))
+  }
+
+  def getTimeBlocks(participationId: Long) = TODO
+
+  def saveTimeBlocks = IsAuthenticated(BodyParsers.parse.json) { implicit userId => request =>
+    request.body.validate[JsonRequest.SaveTimeBlocks].map { parsed =>
+      HasEventParticipantAccess(parsed.eventId) {
+        TimeBlock.update(userId, parsed.eventId, parsed.timeBlocks)
+        Ok("{}")
+      }
+    }.getOrElse(BadRequest)
   }
 }
