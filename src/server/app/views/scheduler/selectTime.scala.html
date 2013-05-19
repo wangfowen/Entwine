@@ -1,4 +1,4 @@
-@(userId: Long, event: database.models.Event)
+@(userId: Long, eventId: Long)
 
 @import tags._
 
@@ -6,7 +6,7 @@
   <div class="clearfix">
     <div class="title-pane">
       <h1 class="heading-1">your availability</h1>
-      <span class="sub-heading-1">for <span class="emphasis">@event.getName()</span></span>
+      <span class="sub-heading-1">for <span class="emphasis">name</span></span>
       @roundIcon(Map(
           "value" -> "?",
           "id" -> "infoIcon",
@@ -17,9 +17,9 @@
           "id" -> "infoDialog",
           "class" -> "info-dialog")){
         <h3 class="heading-3">location</h3>
-        <p class="text-plain small">@event.getLocation()</p>
+        <p class="text-plain small">location</p>
         <h3 class="heading-3">description</h3>
-        <p class="text-plain small">@event.getDescription()</p>
+        <p class="text-plain small">description</p>
       }
     </div>
   </div>
@@ -43,7 +43,7 @@
     $(function(){
       model = new Entwine.scheduler.models.Participation({
         userId: @userId,
-        eventId: @event.getId()
+        eventId: @eventId
       });
       view = new Entwine.scheduler.views.EventsSelectView({
         el: "#selectTimePage",

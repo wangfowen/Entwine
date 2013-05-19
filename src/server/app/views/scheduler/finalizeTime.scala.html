@@ -1,4 +1,4 @@
-@(userId: Long, event: database.models.Event)
+@(eventId: Long)
 
 @import tags._
 
@@ -35,8 +35,7 @@
     var view = null;
     $(function(){
       model = new Entwine.scheduler.models.Participation({
-        userId: @userId,
-        eventId: @event.getId()
+        eventId: @eventId
       });
       view = new Entwine.scheduler.views.EventsSelectView({
         el: "#selectTimePage",
