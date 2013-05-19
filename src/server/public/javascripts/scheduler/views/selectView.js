@@ -45,7 +45,7 @@ Entwine.scheduler.views.EventsSelectView = Backbone.View.extend({
       $('#description').html(model.get("event").description);
     }});
     this.timeblockModel.fetch(function () {
-      
+
     });
 
   },
@@ -54,7 +54,7 @@ Entwine.scheduler.views.EventsSelectView = Backbone.View.extend({
     aEvent.preventDefault();
     this.calendarObject.save(function () {
       alertify.success("You have successfully selected your time.");
-      window.href = "/scheduler/dashboard";
+      window.location.href = "/scheduler/dashboard";
     }, function () {
       alertify.error("Oops, there appears to be a server error.");
     }, {

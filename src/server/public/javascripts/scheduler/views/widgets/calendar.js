@@ -1,12 +1,12 @@
 Entwine.scheduler.views.widgets.Calendar = Backbone.View.extend({
   "defaults": {},
-  
+
   "initialize": function (aOpts) {
     var opts = _.defaults(aOpts, this.defaults);
     var self = this;
-    
+
     this.model = opts["model"];
-    
+
     this.$el.fullCalendar({
       dayNamesShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
       defaultView: "agendaWeek",
@@ -32,7 +32,7 @@ Entwine.scheduler.views.widgets.Calendar = Backbone.View.extend({
             "start": new Date(a.get("startTime")),
             "end": new Date(a.get("endTime")),
             "title": "",
-            "allDay": false 
+            "allDay": false
           };
         }), function (a) {
           return a;
@@ -44,7 +44,7 @@ Entwine.scheduler.views.widgets.Calendar = Backbone.View.extend({
         if (aEvent.layer)
           return true;
 
-        
+
         self.model.remove(self.model.find(function (aElem) {
           return aElem.get("startTime") == aEvent["start"].getTime() &&
               aElem.get("endTime") == aEvent["end"].getTime();
@@ -62,35 +62,36 @@ Entwine.scheduler.views.widgets.Calendar = Backbone.View.extend({
           allDay: allDay,
           layer: 0
         };
-        
+
         self.model.add(new Entwine.scheduler.models.Timeblock({
           "startTime": event["start"].getTime(),
           "endTime": event["end"].getTime(),
           "_metadata": event
         }));
-        
+
         self.$el.fullCalendar("refetchEvents");
         self.$el.fullCalendar("unselect");
       }
     });
-    
+
     this.model.on("all", function (aModel, aResponse) {
         self.$el.fullCalendar("refetchEvents");
     });
   },
-  
+
   "save": function (aOnSuccess, aOnFailure, aData, aUrl) {
     var self = this;
+
     var params = {
-      "url": this.model.prototype.url,
+      "url": self.model.url,
       "type": "PUT",
       "contentType": "application/json",
       "dataType": "json",
       "data": JSON.stringify(_.extend(aData, {
-        "timeBlocks": this.model.toJSON()
+        "timeBlocks": self.model.toJSON()
       }))
     };
-    
+
     $.ajax(params).success(function () {
       self.$el.fullCalendar("refetchEvents");
       aOnSuccess();
