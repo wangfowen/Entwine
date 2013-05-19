@@ -22,11 +22,11 @@ Entwine.scheduler.views.EventsSelectView = Backbone.View.extend({
     this.infoIcon.on("mouseleave", function () {
       self.infoDialog.fadeTo(150, 0);
     });
-    
-    this.calendarObject = new Entwine.widgets.views.Calendar({
+
+    this.calendarObject = new Entwine.scheduler.views.widgets.Calendar({
       "el": $("#calendarContainer")
     });
-    
+
     this.eventModel = new Entwine.scheduler.models.Event({
       "url": Entwine.scheduler.models.Event.prototype.url = "/" + eventId
     });
