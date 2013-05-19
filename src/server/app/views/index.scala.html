@@ -10,7 +10,7 @@
       @if(!error.isEmpty){
         <p class="text-error">@error.get</p>
       }
-      <form class="mailing-form" method="post" action="@routes.Login.login()">
+      <form class="mailing-form" method="post" action="@routes.Application.loginHandler">
         <p class="green">Log in and enjoy:</p>
         <div id="extra-fields" >
           <div class="input-group">
@@ -32,7 +32,7 @@
         </div>
         <input type="submit" id="submit" class="next-button" value="Login" />
       </form>
-      <p class="alternative text-plain small"><span id="reg-text">Don't have an account?</span> <a class="link bold" id="register" href="@routes.Login.index()">Register here</a>.</p>
+      <p class="alternative text-plain small"><span id="reg-text">Don't have an account?</span> <a class="link bold" id="register" href="#">Register here</a>.</p>
     </section>
     <div class="divider">
       <img src='@routes.Assets.at("images/home/divider.png")' />
@@ -53,7 +53,8 @@
   var $extraFields = $('#extra-fields'),
       $submit = $('#submit'),
       $register = $('#register'),
-      $regText = $('#reg-text');
+      $regText = $('#reg-text'),
+      $form = $('.mailing-form');
 
   $register.click(function(e) {
     e.preventDefault();
@@ -65,12 +66,14 @@
       $submit.css("left", "-119px");
       $register.html('Login here');
       $regText.html("Have an account?");
+      $form.attr("action", "@routes.Application.registerHandler()");
     } else {
       $extraFields.hide();
       $submit.val('Login');
       $submit.css("left", "-128px");
       $register.html('Register here');
       $regText.html("Don't have an account?");
+      $form.attr("action", "@routes.Application.loginHandler()");
     }
   });
 </script>
