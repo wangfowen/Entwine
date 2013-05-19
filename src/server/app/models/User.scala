@@ -68,7 +68,7 @@ object User {
         case Some(_) =>
           None
         case None =>
-          val userId = SQL("INSERT INTO User(email, password, createdDate) VALUES({email}, NULL, NOW());")
+          val userId = SQL("INSERT INTO User(email, password, firstName, lastName, createdDate) VALUES({email}, NULL, NULL, NULL, NOW());")
             .on("email" -> email)
             .executeInsert()
           userId
