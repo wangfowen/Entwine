@@ -17,7 +17,7 @@ object AjaxApi extends Controller with Authentication {
   def register = Action(BodyParsers.parse.json) { request =>
     request.body.validate[JsonRequest.Register].map { parsed =>
       User.register(parsed.email, parsed.password, parsed.firstName, parsed.lastName).map { userId =>
-        Created(Json.obj("userId" -> userId))
+        Created(Json.obj("userId" -> userId)).withSession("userId" -> userId.toString)
       }.getOrElse(BadRequest)
     }.getOrElse(BadRequest)
   }

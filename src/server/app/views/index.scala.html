@@ -2,38 +2,33 @@
 @layout("Entwine") {
   <header>
     <img src='@routes.Assets.at("images/home/header.jpg")' />
-    <h1>Plan less. Do more.</h1>
   </header>
   <div class="body text-plain">
-    <section class="top-section">
+    <section class="top-section left">
+      <h1>Plan less. Do more.</h1>
       <p>Entwine helps you schedule events easily by finding the times that work best for you and your friends.</p>
-      @if(!error.isEmpty){
-        <p class="text-error">@error.get</p>
-      }
-      <form class="mailing-form" method="post" data-validate="parsley" action="@routes.Application.loginHandler">
-        <p class="green">Log in and enjoy:</p>
-        <div id="extra-fields" >
-          <div class="input-group">
-            <label for="firstName">First Name:</label>
-            <input type="text" name="firstName" id="firstName" data-required="true" class="field-input">
-          </div>
-          <div class="input-group">
-            <label for="lastName">Last Name:</label>
-            <input type="text" name="lastName" id="lastName" data-required="true" class="field-input">
-          </div>
-        </div>
-        <div class="input-group">
-          <label for="email">Email:</label>
-          <input type="email" name="email" id="email" data-required="true" class="field-input" />
-        </div>
-        <div class="input-group">
-          <label for="password">Password:</label>
-          <input type="password" name="password" id="password" data-required="true" class="field-input" />
-        </div>
+    </section>
+    <section class="top-section right">
+    <p class="text-error">
+    @if(!error.isEmpty){
+      @error.get
+    }
+    </p>
+      <form class="mailing-form" method="post" id="login" data-validate="parsley" action="@routes.Application.loginHandler">
+          <input type="email" name="email" id="login-email" data-type="email" data-required="true" data-minlength="3" class="field-input" placeholder="Email" />
+          <input type="password" name="password" id="login-password" data-required="true" class="field-input" data-minlength="6" placeholder="Password" />
         <input type="submit" id="submit" class="next-button" value="Login" />
       </form>
-      <p class="alternative text-plain small"><span id="reg-text">Don't have an account?</span> <a class="link bold" id="register" href="#">Register here</a>.</p>
+
+      <form class="mailing-form" method="post" id="signup" data-validate="parsley" action="@routes.Application.registerHandler">
+            <input type="text" name="firstName" id="firstName" data-required="true" class="field-input" placeholder='First Name'>
+            <input type="text" name="lastName" id="lastName" data-required="true" class="field-input" placeholder='Last Name'>
+          <input type="email" name="email" id="email" data-required="true" class="field-input" data-minlength="3" placeholder="Email" />
+          <input type="password" name="password" id="password" data-required="true" class="field-input" data-minlength="6" placeholder="Password" />
+        <input type="submit" id="submit" class="next-button" value="Sign up for free" />
+      </form>
     </section>
+
     <div class="divider">
       <img src='@routes.Assets.at("images/home/divider.png")' />
     </div>
@@ -50,42 +45,53 @@
   <link rel="stylesheet" media="screen" href='@routes.Assets.at("stylesheets/homepage.css")'>
 }{
 <script>
-  var $extraFields = $('#extra-fields'),
-      $submit = $('#submit'),
-      $register = $('#register'),
-      $regText = $('#reg-text'),
-      $form = $('.mailing-form');
-
-  $register.click(function(e) {
-    e.preventDefault();
+  $('#login').submit(function(e) {
     e.stopPropagation();
+    e.preventDefault();
 
-    if ($extraFields.css("display") === "none") {
-      $extraFields.show();
-      $submit.val('Register');
-      $submit.css("left", "-119px");
-      $register.html('Login here');
-      $regText.html("Have an account?");
-      $form.attr("action", "@routes.Application.registerHandler()");
-    } else {
-      $extraFields.hide();
-      $submit.val('Login');
-      $submit.css("left", "-128px");
-      $register.html('Register here');
-      $regText.html("Don't have an account?");
-      $form.attr("action", "@routes.Application.loginHandler()");
-    }
+    var d = {
+      email: $('#login-email').val(),
+      password: $('#login-password').val()
+    };
+
+    $.ajax({
+      type: "POST",
+      url: '@routes.AjaxApi.login',
+      data: JSON.stringify(d),
+      success: function(data) {
+        //redirect or send error
+        window.location.href = "@controllers.scheduler.routes.Dashboard.index";
+      },
+      dataType: "json",
+      contentType: "application/json"
+      }).fail(function() {
+        $('.text-error').html("Error logging in, please try again");
+    });
   });
 
-  $form.parsley( 'addListener', {
-    onFieldValidate: function ( elem ) {
-      // if field is not visible, do not apply Parsley validation
-      if (!$( elem ).is(':visible')) {
-        return true;
-      }
+  $('#signup').submit(function(e) {
+    e.stopPropagation();
+    e.preventDefault();
 
-      return false;
-    }
+    var d = {
+      firstName: $('#firstName').val(),
+      lastName: $('#lastName').val(),
+      email: $('#email').val(),
+      password: $('#password').val()
+    };
+
+    $.ajax({
+      type: "POST",
+      url: '@routes.AjaxApi.register',
+      data: JSON.stringify(d),
+      success: function(data) {
+        window.location.href = "@controllers.scheduler.routes.Dashboard.index";
+      },
+      dataType: "json",
+      contentType: "application/json"
+      }).fail(function() {
+        $('.text-error').html("Error signing up, please try again");
+    });
   });
 </script>
 }
