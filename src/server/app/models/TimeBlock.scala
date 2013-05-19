@@ -4,17 +4,15 @@ import anorm._
 import play.api.Play.current
 import play.api.db._
 
-import java.util.Date
-
 case class TimeBlock(
   timeBlockId: Long,
   participationId: Long,
-  startTime: Date,
-  endTime: Date
+  startTime: Long,
+  endTime: Long
 )
 
 object TimeBlock{
-  def update(participationId: Long, timeBlock: List[(Date, Date)]) = {
+  def update(participationId: Long, timeBlock: List[(Long, Long)]) = {
     DB.withConnection { implicit c =>
       SQL("DELETE FROM TimeBlock WHERE participationId = {participationId};").execute()
 
