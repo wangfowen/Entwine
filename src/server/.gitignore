@@ -1,2 +1,9 @@
 .idea/
 .idea_modules/
+.cache
+.classpath
+.project
+/bin
+/target
+/.settings
+/.target

@@ -1,9 +1,9 @@
 package models
 
 import anorm._
-import anorm.SqlParser._
 import play.api.Play.current
 import play.api.db._
+import com.roundeights.hasher.Hasher
 
 import java.util.Date
 
@@ -18,12 +18,13 @@ case class User(
 
 object User {
   def register(email: String, password: String, firstName: String, lastName: String): Option[Long] = {
+    val hashedPassword = Hasher(password).bcrypt.toString
     DB.withConnection { implicit c =>
       getUser(email) match {
         case Some(User(userId,_,_,_,_,None)) =>
-          SQL("UPDATE User SET password = {password}, firstName = {firstName}, lastName = {lastName}, joinedDate = NOW() WHERE email = {email};")
+          SQL("UPDATE User SET password = {hashedPassword}, firstName = {firstName}, lastName = {lastName}, joinedDate = NOW() WHERE email = {email};")
               .on("email" -> email,
-                  "password" -> password,
+                  "hashedPassword" -> hashedPassword,
                   "firstName" -> firstName,
                   "lastName" -> lastName)
               .executeUpdate()
@@ -33,9 +34,9 @@ object User {
           None
 
         case None =>
-          val userId = SQL("INSERT INTO User(email, password, firstName, lastName, createdDate, joinedDate) VALUES({email}, {password}, {firstName}, {lastName}, NOW(), NOW());")
+          val userId = SQL("INSERT INTO User(email, password, firstName, lastName, createdDate, joinedDate) VALUES({email}, {hashedPassword}, {firstName}, {lastName}, NOW(), NOW());")
               .on("email" -> email,
-                  "password" -> password,
+                  "hashedPassword" -> hashedPassword,
                   "firstName" -> firstName,
                   "lastName" -> lastName)
               .executeInsert()
@@ -45,10 +46,11 @@ object User {
   }
 
   def authenticate(email: String, password: String): Option[User] = {
+    val hashedPassword = Hasher(password).bcrypt.toString
     DB.withConnection { implicit c =>
-      SQL("SELECT * FROM User WHERE email = {email} AND password = {password} AND joinedDate IS NOT NULL;")
+      SQL("SELECT * FROM User WHERE email = {email} AND password = {hashedPassword} AND joinedDate IS NOT NULL;")
           .on("email" -> email,
-              "password" -> password)
+              "hashedPassword" -> hashedPassword)
           .as(SqlResultParser.user.singleOpt)
     }
   }
