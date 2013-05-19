@@ -30,6 +30,10 @@ object AjaxApi extends Controller with Authentication {
     }.getOrElse(BadRequest)
   }
 
+  def logout = Action { _ =>
+    Ok(Json.obj()).withNewSession
+  }
+
   def getContacts = IsAuthenticated { userId => request =>
     Ok(Json.toJson(Contact.get(userId)))
   }

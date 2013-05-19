@@ -4,21 +4,19 @@ import anorm._
 import play.api.Play.current
 import play.api.db._
 
-import java.util.Date
-
 case class Event(
   eventId: Long,
   name: String,
   description: String,
   location: String,
   ownerId: Long,
-  createdDate: Date
+  createdDate: Long
 )
 
 object Event {
   def create(ownerId: Long, name: String, description: String, location: String): Option[Long] = {
     DB.withConnection { implicit c =>
-      val eventId = SQL("INSERT INTO Event(name, description, location, ownerId, createdDate) VALUES({name}, {description}, {location}, {ownerId}, NOW());")
+      val eventId = SQL("INSERT INTO Event(name, description, location, ownerId, createdDate) VALUES({name}, {description}, {location}, {ownerId}, UNIX_TIMESTAMP());")
           .on("name" -> name,
               "description" -> description,
               "location" -> location,

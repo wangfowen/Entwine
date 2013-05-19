@@ -3,16 +3,14 @@ package models
 import anorm.SqlParser._
 import anorm.~
 
-import java.util.Date
-
 object SqlResultParser {
   val user = {
     get[Long]("userId")~
     get[String]("email")~
     get[Option[String]]("firstName")~
     get[Option[String]]("lastName")~
-    get[Date]("createdDate")~
-    get[Option[Date]]("joinedDate") map {
+    get[Long]("createdDate")~
+    get[Option[Long]]("joinedDate") map {
       case userId~email~firstName~lastName~createdDate~joinedDate =>
         User(userId, email, firstName, lastName, createdDate, joinedDate)
     }
@@ -32,7 +30,7 @@ object SqlResultParser {
     get[String]("description")~
     get[String]("location")~
     get[Long]("ownerId")~
-    get[Date]("createdDate") map {
+    get[Long]("createdDate") map {
       case eventId~name~description~location~ownerId~createdDate =>
         Event(eventId, name, description, location, ownerId, createdDate)
     }
@@ -44,7 +42,7 @@ object SqlResultParser {
     get[Int]("role")~
     get[Long]("participantId")~
     get[Long]("eventId")~
-    get[Option[Date]]("respondedDate") map {
+    get[Option[Long]]("respondedDate") map {
       case participationId~status~role~participantId~eventId~respondedDate =>
         Participation(participationId, Participation.Status(status), Participation.Role(role), participantId, eventId, respondedDate)
     }
@@ -53,8 +51,8 @@ object SqlResultParser {
   val timeBlock = {
     get[Long]("timeBlockId")~
     get[Long]("participationId")~
-    get[Date]("startTime")~
-    get[Date]("endTime") map {
+    get[Long]("startTime")~
+    get[Long]("endTime") map {
       case timeBlockId~participationId~startTime~endTime =>
         TimeBlock(timeBlockId, participationId, startTime, endTime)
     }
