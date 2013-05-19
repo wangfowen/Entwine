@@ -38,8 +38,8 @@ object AjaxApi extends Controller with Authentication {
     request.body.validate[JsonRequest.CreateEvent].map { parsed =>
       val eventId = Event.create(userId, parsed.name, parsed.description, parsed.location).get
       parsed.participants.foreach { p =>
-        val participantId = Participation.createParticipant(Participation.Role(p.role), p.email, eventId).get
-        Contact.create(userId, participantId)
+        Participation.createParticipant(Participation.Role(p.role), p.email, eventId).get
+        Contact.create(userId, User.getUser(p.email).get.userId)
       }
       Ok(Json.obj("eventId" -> eventId))
     }.getOrElse(BadRequest)

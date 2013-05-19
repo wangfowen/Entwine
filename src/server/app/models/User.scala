@@ -48,15 +48,19 @@ object User {
 
   def authenticate(email: String, password: String): Option[User] = {
     DB.withConnection { implicit c =>
-      val hashedPassword = SQL("SELECT password FROM User WHERE email = {email} AND joinedDate IS NOT NULL;")
+      SQL("SELECT password FROM User WHERE email = {email} AND joinedDate IS NOT NULL;")
           .on("email" -> email)
-          .as(scalar[String].single)
-      (Hasher(password).bcrypt= hashedPassword) match {
-        case true =>
-          SQL("SELECT * FROM User WHERE email = {email} AND joinedDate IS NOT NULL;")
-              .on("email" -> email)
-              .as(SqlResultParser.user.singleOpt)
-        case false =>
+          .as(scalar[String].singleOpt) match {
+        case Some(hashedPassword) =>
+          (Hasher(password).bcrypt= hashedPassword) match {
+            case true =>
+              SQL("SELECT * FROM User WHERE email = {email} AND joinedDate IS NOT NULL;")
+                .on("email" -> email)
+                .as(SqlResultParser.user.singleOpt)
+            case false =>
+              None
+          }
+        case None =>
           None
       }
     }

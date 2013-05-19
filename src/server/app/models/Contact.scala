@@ -12,10 +12,18 @@ case class Contact(
 object Contact {
   def create(userId: Long, contactId: Long) {
     DB.withConnection { implicit c =>
-      SQL("INSERT INTO Contact(userId, contactId) VALUES({userId}, {contactId});")
+      SQL("SELECT * FROM Contact WHERE userId = {userId} AND contactId = {contactId};")
           .on("userId" -> userId,
               "contactId" -> contactId)
-          .executeInsert()
+          .as(SqlResultParser.contact.singleOpt) match {
+        case Some(_) =>
+
+        case None =>
+          SQL("INSERT INTO Contact(userId, contactId) VALUES({userId}, {contactId});")
+              .on("userId" -> userId,
+                  "contactId" -> contactId)
+              .executeInsert()
+      }
     }
   }
 
