@@ -41,6 +41,7 @@ object AjaxApi extends Controller with Authentication {
   }
 
   def createEvent = IsAuthenticated(BodyParsers.parse.json) { implicit userId => implicit request =>
+    val ownUser = User.getUser(userId).get
     request.body.validate[JsonRequest.CreateEvent].map { parsed =>
       val eventId = Event.create(userId, parsed.name, parsed.description, parsed.location).get
       parsed.participants.foreach { p =>
@@ -51,7 +52,7 @@ object AjaxApi extends Controller with Authentication {
             NewInvite(
                 user.email,
                 controllers.scheduler.routes.SelectTime.index(eventId, user.userId).absoluteURL(),
-                User.getUser(userId).get))
+                ownUser))
       }
       Ok(Json.obj("eventId" -> eventId))
     }.getOrElse(BadRequest)

@@ -13,7 +13,8 @@ class SmtpSender extends Actor {
   }
 
   def sendNewInvite(email: String, link: String, user: User) {
-    val subject = "%s has invited you an event!".format(user.firstName + " " + user.lastName)
+    println(user.firstName.get + " " + user.lastName.get)
+    val subject = "%s has invited you an event!".format(user.firstName.get + " " + user.lastName.get)
     val textBody = "%s has invited you to an event. Please visit the following link to choose your availability. %s".format(user.firstName + " " + user.lastName, link)
     val htmlBody = "%s has invited you to an event! Please choose your availability <a href=\"%s\">here</a>".format(user.firstName + " " + user.lastName, link)
 
