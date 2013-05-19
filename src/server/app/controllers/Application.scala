@@ -78,6 +78,6 @@ object Application extends Controller {
 
   def testHandler = Action {
 
-    Ok(User.getUser(1).toString)
+    Ok(TimeBlock.getTimeBlockStrength(1, 1).toString)
   }
 }
