@@ -60,7 +60,7 @@ object Application extends Controller {
       formWithErrors =>
         BadRequest,
       values =>
-        (User.createUser _).tupled(values) match {
+        (User.register _).tupled(values) match {
           case Some(userId) =>
             Redirect(routes.Application.index).withSession("userId" -> userId.toString)
           case None =>

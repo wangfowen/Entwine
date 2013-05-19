@@ -29,7 +29,7 @@ object User {
               .executeUpdate()
           Some(userId)
 
-        case Some(User) =>
+        case Some(User(_,_,_,_,_,_)) =>
           None
 
         case None =>
@@ -39,7 +39,7 @@ object User {
                   "firstName" -> firstName,
                   "lastName" -> lastName)
               .executeInsert()
-          Some(userId)
+          userId
       }
     }
   }
@@ -54,20 +54,24 @@ object User {
   }
 
   def create(email: String): Option[Long] = {
-    getUser(email) match {
-      case Some(_) =>
-        None
-      case None =>
-        val userId = SQL("INSERT INTO User(email, createdDate) VALUES({email}, NOW());")
+    DB.withConnection { implicit c =>
+      getUser(email) match {
+        case Some(_) =>
+          None
+        case None =>
+          val userId = SQL("INSERT INTO User(email, createdDate) VALUES({email}, NOW());")
             .on("email" -> email)
             .executeInsert()
-        Some(userId)
+          userId
+      }
     }
   }
 
   def getUser(email: String): Option[User] = {
-    SQL("SELECT * FROM User WHERE email = {email};")
+    DB.withConnection { implicit c =>
+      SQL("SELECT * FROM User WHERE email = {email};")
         .on("email" -> email)
         .as(SqlResultParser.user.singleOpt)
+    }
   }
 }
