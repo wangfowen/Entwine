@@ -1,7 +1,5 @@
 Entwine.scheduler.views.widgets.Calendar = Backbone.View.extend({
-  "defaults": {
-    "model": new Entwine.scheduler.collections.Timeblocks()
-  },
+  "defaults": {},
   
   "initialize": function (aOpts) {
     var opts = _.defaults(aOpts, this.defaults);
@@ -29,10 +27,12 @@ Entwine.scheduler.views.widgets.Calendar = Backbone.View.extend({
         right: "next"
       },
       "events": function (aStart, aEnd, aCallback) {
-        var ret = self.model.map(function (a) {
+        var ret = _.filter(self.model.map(function (a) {
           return a.get("_metadata");
+        }), function (a) {
+          return a;
         });
-        aCallback(ret);
+        aCallback(ret || []);
       },
       "firstDay": 0,
       "eventClick": function (aEvent) {
@@ -76,18 +76,20 @@ Entwine.scheduler.views.widgets.Calendar = Backbone.View.extend({
     });
   },
   
-  "save": function (aOnSuccess, aOnFailure) {
+  "save": function (aOnSuccess, aOnFailure, aData) {
     var self = this;
     var params = {
       "url": this.model.url,
       "type": "PUT",
       "contentType": "application/json",
       "dataType": "json",
-      "data": JSON.stringify(this.model.toJSON())
+      "data": JSON.stringify(_.extend(aData, {
+        "timeBlocks": this.model.toJSON()
+      }))
     };
     
     $.ajax(params).success(function () {
-      self.calendarObject.fullCalendar("refetchEvents");
+      self.$el.fullCalendar("refetchEvents");
       aOnSuccess();
     }).fail(function () {
       aOnFailure();

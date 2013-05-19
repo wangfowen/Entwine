@@ -18,6 +18,6 @@ object JsonRequest {
   case class TimeBlock(startTime: Long, endTime: Long)
   implicit val timeBlock = Json.reads[TimeBlock]
 
-  case class SaveTimeBlocks(eventId: Long, timeBlocks: List[TimeBlock])
+  case class SaveTimeBlocks(userId: Option[Long], eventId: Long, timeBlocks: List[TimeBlock])
   implicit val saveTimeBlocks = Json.reads[SaveTimeBlocks]
 }

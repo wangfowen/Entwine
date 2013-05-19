@@ -9,8 +9,9 @@ Entwine.scheduler.views.EventsSelectView = Backbone.View.extend({
 
   initialize: function (aOpts) {
     var self = this;
-    var eventId = aOpts["eventId"];
-    var userId = aOpts["userId"];
+    this.eventId = aOpts["eventId"];
+    this.userId = aOpts["userId"];
+    this.participationId = aOpts["participationId"];
 
     this.infoIcon = $("#infoIcon");
     this.infoDialog = $("#infoDialog");
@@ -23,15 +24,19 @@ Entwine.scheduler.views.EventsSelectView = Backbone.View.extend({
       self.infoDialog.fadeTo(150, 0);
     });
 
+    this.eventModel = new (Entwine.scheduler.models.Event.extend({
+      "url": Entwine.scheduler.models.Event.prototype.url + "/" + this.eventId
+    }));
+    this.timeblockModel = new (Entwine.scheduler.collections.Timeblocks.extend({
+      "url": Entwine.scheduler.collections.Timeblocks.prototype.url + "/" + this.participationId
+    }));
+
     this.calendarObject = new Entwine.scheduler.views.widgets.Calendar({
-      "el": $("#calendarContainer")
+      "el": $("#calendarContainer"),
+      "model": this.timeblockModel
     });
-
-    this.eventModel = new Entwine.scheduler.models.Event({
-      "url": Entwine.scheduler.models.Event.prototype.url = "/" + eventId
-    });
-
-    return this;
+    this.eventModel.fetch();
+    this.timeblockModel.fetch();
   },
 
   plan: function (aEvent) {
@@ -41,6 +46,9 @@ Entwine.scheduler.views.EventsSelectView = Backbone.View.extend({
       window.href = "/scheduler/dashboard";
     }, function () {
       alert("Oops, there appears to be a server error.");
+    }, {
+      "eventId": this.eventId,
+      "userId": this.userId
     });
   }
 });

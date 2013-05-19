@@ -1,6 +1,6 @@
 Entwine.scheduler.views.widgets.TimeslotList = Backbone.View.extend({
   "defaults": {
-    "model": new Entwine.scheduler.collections.CommonTimeslots(),
+    "model": new Entwine.scheduler.collections.CommonTimeblocks(),
     "listitem": $.trim($("#TLITimeslot").html())
   },
   
@@ -10,10 +10,15 @@ Entwine.scheduler.views.widgets.TimeslotList = Backbone.View.extend({
     
     this.model = opts["model"];
     
+    var $list = self.$el.find("#timeslotList");
+    var $selbox = self.$el.find("#selectionBox");
+    
+    $selbox.hide();
+    
     this.model.on("reset", {
       success: function (aModel, aResponse) {
         aModel.forEach(function (aElem) {
-          self.$el.append(_.template(opts.listitem, {
+          $list.append(_.template(opts.listitem, {
             "date": aElem.get("startTime"),
             "startTime": aElem.get("startTime"),
             "endTime": aElem.get("endTime"),
