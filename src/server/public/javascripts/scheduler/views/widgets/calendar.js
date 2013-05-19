@@ -1,6 +1,6 @@
 Entwine.scheduler.views.widgets.Calendar = Backbone.View.extend({
   "defaults": {
-    "model": new Entwine.scheduler.collections.Participations()
+    "model": new Entwine.scheduler.collections.Participants()
   },
   
   "initialize": function (aOpts) {
@@ -50,7 +50,6 @@ Entwine.scheduler.views.widgets.Calendar = Backbone.View.extend({
           allDay: allDay,
           layer: 0
         };
-
         self.model.addTimeBlock(event);
         self.calendarObject.fullCalendar("refetchEvents");
         self.calendarObject.fullCalendar("unselect");

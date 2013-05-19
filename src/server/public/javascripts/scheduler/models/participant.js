@@ -10,6 +10,6 @@ Entwine.scheduler.models.Participant = Backbone.Model.extend({
   "idAttribute": "participationId"
 });
 
-Entwine.scheduler.models.Participants = Backbone.Collections.extend({
+Entwine.scheduler.collections.Participants = Backbone.Collection.extend({
   "model": Entwine.scheduler.models.Participant
 });

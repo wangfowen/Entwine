@@ -147,7 +147,9 @@ Entwine.scheduler.views.CreateEventsView = Backbone.View.extend({
       url: '/api/event',
       data: JSON.stringify(data),
       success: function(data) {
-          console.log(data);
+        //TODO: how do I get userId? How do I redirect legitly?
+        if (data.eventId !== undefined)
+          window.location.href = "/scheduler/select?eventId=" + data.eventId + "&userId=1";
       },
       dataType: "json",
       contentType: "application/json"

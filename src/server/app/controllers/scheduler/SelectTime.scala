@@ -11,25 +11,22 @@ import play.api.mvc.Action
 import play.api.mvc.Controller
 
 object SelectTime extends Controller with Authentication {
-	
-	def shortDateFormat = new SimpleDateFormat("MM/dd/yyyy")
-		
-	val selectTimeGetForm = Form(
-		tuple (
-			"userId" -> optional(of[Long]),
-			"eventId" -> optional(of[Long])
-		)
-	)
 
-	def index (eventId: Long, userId: Long) = Action { implicit request =>
-		
-		
+  def shortDateFormat = new SimpleDateFormat("MM/dd/yyyy")
 
-		Ok(views.html.scheduler.selectTime(if (userId == -1) {
+  val selectTimeGetForm = Form(
+    tuple (
+      "userId" -> optional(of[Long]),
+      "eventId" -> optional(of[Long])
+    )
+  )
+
+  def index (eventId: Long, userId: Long) = Action { implicit request =>
+    Ok(views.html.scheduler.selectTime(if (userId == -1) {
       request.session.get("userId").getOrElse("-1").toLong
     } else {
       userId
     }, eventId))
-	}
-	
+  }
+
 }

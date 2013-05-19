@@ -37,6 +37,7 @@ object Application extends Controller {
   )
 
   def index = Action {
+    //TODO: check if there's a user session, if there is redirect to dashboard instead
     Ok(views.html.index())
   }
 

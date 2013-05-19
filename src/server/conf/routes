@@ -11,6 +11,7 @@ GET     /scheduler/create           controllers.scheduler.CreateEvent.index
 POST    /scheduler/create           controllers.scheduler.CreateEvent.createEvent
 GET     /scheduler/select           controllers.scheduler.SelectTime.index(eventId: Long ?= -1, userId: Long ?= -1)
 GET     /scheduler/finalize         controllers.scheduler.FinalizeTime.index(eventId: Long ?= -1)
+GET     /account/settings            controllers.account.Settings.index
 
 GET     /test                       controllers.Application.testHandler
 
