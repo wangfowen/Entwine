@@ -237,6 +237,18 @@ Entwine.account.views.SettingsView = Backbone.View.extend({
       }
     }
 
+    $('#logout').click(function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      $.ajax({
+        url: '/api/logout',
+        success: function() {
+          window.location.href = "/";
+        }
+      });
+    });
+
     return this;
   }
 });

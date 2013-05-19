@@ -36,9 +36,15 @@ object Application extends Controller {
     )
   )
 
-  def index = Action {
-    //TODO: check if there's a user session, if there is redirect to dashboard instead
-    Ok(views.html.index())
+  def index = Action { implicit request =>
+    val userId = request.session.get("userId")
+    userId match {
+      case Some(id) =>
+        val (x, y) = Event.getAll(id.toLong)
+        Ok(views.html.scheduler.dashboard(x, y))
+      case None =>
+        Ok(views.html.index())
+    }
   }
 
   def loginHandler = Action { implicit request =>
